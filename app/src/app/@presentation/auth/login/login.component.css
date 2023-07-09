@@ -1,0 +1,110 @@
+.card {
+  border-radius: 15px;
+  padding-top: 60px !important;
+  padding-bottom: 60px !important;
+  /*padding-left: 120px;
+  padding-right: 120px; */
+  box-shadow: 0px 0px 35px 4px rgba(0, 0, 0, 0.1);
+  border-radius: 20px;
+}
+
+@media screen and (max-width: 1920px) {
+  .height-responsive {
+    height: 500px;
+    position: relative;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .height-responsive {
+    height: 400px;
+    position: relative;
+  }
+}
+@media screen and (max-width: 992px) {
+  .height-responsive {
+    height: 380px;
+    position: relative;
+  }
+}
+@media screen and (max-width: 576px) {
+  .height-responsive {
+    height: 300px;
+    position: relative;
+  }
+}
+.advice {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 16px;
+  text-align: center;
+}
+
+p img {
+  vertical-align: sub !important;
+}
+
+@media screen and (max-width: 600px) {
+  .captchaContent {
+    user-select: none !important;
+    cursor: pointer;
+    display: block;
+    text-align: center;
+    width: 25rem;
+  }
+  .imgLogo {
+    display: none;
+  }
+}
+@media screen and (min-width: 600px) {
+  .captchaContent {
+    user-select: none !important;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25rem;
+  }
+}
+.realperson-challenge-content {
+  user-select: none !important;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 6.25rem;
+  width: 25rem;
+}
+
+/*
+    Catpcha - SERVIR
+*/
+.realperson-challenge {
+  text-align: center !important;
+  display: flex;
+}
+
+::ng-deep .realperson-text {
+  font-family: "Courier New", monospace !important;
+}
+
+.captchaLogin {
+  text-align: center !important;
+  font-weight: 600 !important;
+  text-transform: uppercase;
+}
+
+.titleGDR {
+  color: #0dacbc;
+}
+
+.registroEntidad {
+  color: #024487;
+  text-align: center;
+}
+.registroEntidad .btn-login {
+  background-color: #0dacbc;
+  color: white;
+}
+.registroEntidad .btn-login:focus {
+  box-shadow: none;
+}

@@ -1,0 +1,201 @@
+<div class="grid mt-2 container">
+    <div class="col-12">
+        <div class="field grid p-fluid">
+            <div class="col-12">
+                <div class="field grid p-fluid">
+                    <div class="col-12 md:col-9 sm:col-12 field grid p-fluid justify-content-start mr-0 ml-3">
+                        <div class="field grid">
+                            <div class="field grid col-12 md:col-4 sm:col-12 mr-2">
+                                <label for="search" class="block ml-3 search_label">Servicios:</label>
+                                <input type="text" id="search" pInputText placeholder="Ingresar" [(ngModel)]="servicioABuscar" (ngModelChange)="onNameSearchChange()">
+                            </div>
+                            <div class="field grid col-12 md:col-3 sm:col-12 align-content-end justify-content-start mr-2"><button pButton pRipple type="button" label="Buscar" icon="pi pi-search" iconPos="left" class="p-button-rounded" (click)="search(null,2)"></button></div>
+                            <div class="field grid col-12 md:col-3 sm:col-12 align-content-end"><button pButton pRipple type="button" label="Limpiar" icon="pi pi-trash" iconPos="left" class="p-button-outlined p-button-rounded mr-0" (click)="cleanFields()"></button></div>
+                        </div>                    
+                    </div>
+                    <div class="col-12 md:col-3 sm:col-12 field grid p-fluid justify-content-end">
+                        <div class="col-12 md:col-7 sm:col-12 grid align-content-center">
+                            <p-button label="Nuevo Registro" icon="pi pi-plus" iconPos="left" (click)="openDialog('new')"></p-button>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+            <div class="col-12">
+                <div class="card">
+                    <p-table #dt 
+                    [value]="feeList" 
+                    responsiveLayout="scroll" 
+                    [rows]="10" 
+                    [paginator]="true" 
+                    [rowsPerPageOptions]="[10,20,30]" 
+                    [showCurrentPageReport]="true" 
+                    currentPageReportTemplate="Vista del {first} al {last} de {totalRecords} vistas" 
+                    [rowHover]="true" 
+                    [loading]="loading"
+                    dataKey="id">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th scope="col">Nº</th>
+                                <th scope="col">SERVICIO</th>
+                                <th scope="col">REQUISITOS</th>
+                                <th scope="col">DERECHO DE PAGO %UIT</th>
+                                <th scope="col">PLAZA PARA ATENCI&Oacute;N</th>
+                                <th scope="col">ACCIONES</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-fee let-rowIndex="rowIndex">
+                            <tr>
+                                <td>
+                                    {{rowIndex + 1}}
+                                </td>
+                                <td>
+                                    <p>{{fee.servicio}}</p>
+                                </td>
+                                <td>
+                                    <p>{{fee.requisito}}</p>
+                                </td>
+                                <td>
+                                    <p>{{fee.derechoPagoUit}}</p>
+                                </td>
+                                <td>
+                                    <p>{{fee.plazoAtencion}}</p>
+                                </td>
+                                <td style="text-align: center !important;width: 182px;">                                        
+                                    <a pButton pRipple icon="pi pi-pencil" class="mr-2 opt-btn opt-btn-success" pTooltip="Editar" (click)="openDialog('edit', fee)"></a>
+                                    <a pButton pRipple icon="pi pi-eye" class="mr-2 opt-btn opt-btn-search" pTooltip="Ver" (click)="openDialog('view', fee)"></a>
+                                    <a pButton pRipple icon="pi pi-trash" class="opt-btn opt-btn-danger" pTooltip="Eliminar" (click)="deleteEtapa(fee.tarifaId)"></a>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="5">No se encontraron resultAados</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+  
+<p-dialog [(visible)]="feeDialog" [style]="{width: '628px'}" [header]="dialogTitle" [modal]="true" class="p-fluid" [resizable]="false">
+    <ng-template pTemplate="content">
+        <div class="field grid">
+            <form autocomplete="off" [formGroup]="newFeeForm" (ngSubmit)="this.newFeeForm.valid && save()"  #f="ngForm">
+                <div class="field grid p-fluid">
+                    <div class="col-12 md:col-6 mb-3">
+                        <div class="field field_mg_bt">
+                            <label htmlFor="asunto">orden:</label>
+                            <input pInputText id="orden" type="text" placeholder="Ingresar"/>
+                        </div>            
+                    </div>
+                    <div class="col-12 md:col-6 mb-3" [ngClass]="{'deshabilitado': operationType === 'view'}">
+                        <div class="field field_mg_bt">
+                            <label htmlFor="asunto">Servicios:</label>
+                            <input pInputText id="servicio" type="text" placeholder="Ingresar" formControlName="servicio" [ngClass]="f.submitted && servicio.invalid ? 'input_err' : ''"/>
+                        </div>
+                        <div class="col" *ngIf="f.submitted && servicio.invalid">
+                            <p-message severity="error" text="El servicio es requerido"></p-message>
+                        </div>
+                    </div>
+
+                    <div class="col-12 md:col-12 mb-3" [ngClass]="{'deshabilitado': operationType === 'view'}">
+                        <div class="field field_mg_bt">
+                            <label htmlFor="asunto">Requisitos:</label>
+                            <textarea id="requisito" pInputTextarea formControlName="requisito" required rows="3" cols="20" [ngClass]="f.submitted && requisito.invalid ? 'input_err' : ''"></textarea>          
+                        </div>
+                        <div class="col" *ngIf="f.submitted && requisito.invalid">
+                            <p-message severity="error" text="Los requisitos son requeridos"></p-message>
+                        </div>
+                    </div>
+
+                    <div class="col-12 md:col-6 mb-3" [ngClass]="{'deshabilitado': operationType === 'view'}">
+                        <div class="field field_mg_bt">
+                            <label htmlFor="asunto">Plazo para atenci&oacute;n:</label>
+                            <input pInputText id="plazoAtencion" type="text" placeholder="Ingresar" formControlName="plazoAtencion" [ngClass]="f.submitted && plazoAtencion.invalid ? 'input_err' : ''" />
+                        </div>
+                        <div class="col" *ngIf="f.submitted && plazoAtencion.invalid">
+                            <p-message severity="error" text="El Plazo para atenci&oacute;n es requerido"></p-message>
+                        </div>
+                    </div>
+
+
+                    <div class="col-12 md:col-6 mb-3" [ngClass]="{'deshabilitado': operationType === 'view'}">
+                        <div class="field field_mg_bt">
+                            <label htmlFor="asunto">Derecho de pago %UIT:</label>
+                            <input pInputText id="derechoPagoUit" type="text" placeholder="Ingresar" formControlName="derechoPagoUit" [ngClass]="f.submitted && derechoPagoUit.invalid ? 'input_err' : ''" />
+                        </div>
+                        <div class="col" *ngIf="f.submitted && derechoPagoUit.invalid">
+                            <p-message severity="error" text="El Derecho de pago %UIT es requerido"></p-message>
+                        </div>
+                    </div>
+
+                    <div class="col-12 md:col-6 mb-3"  *ngIf="operationType === 'view'">
+                        <div class="field field_mg_bt">
+                            <label for="name">Fecha de Creación</label>
+                            <input type="text" pInputText id="fechaCreacion" name="fechaCreacion"
+                            formControlName="fechaCreacion" disabled />
+                        </div>
+                        
+                    </div>
+                    
+                </div>
+
+                <div class="field grid p-fluid justify-content-center">
+                    <div class="col-6" *ngIf="operationType === 'new' || operationType === 'edit'">
+                        <div class="flex justify-content-center">
+                            <button pButton pRipple type="submit" label="Guardar" class="p-button-rounded" icon="pi pi-save" iconPos="left"></button>
+                    </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="flex justify-content-center">
+                            <button pButton pRipple type="button" label="Cerrar" icon="pi pi-power-off" iconPos="left" class="p-button-outlined p-button-rounded" (click)="hideDialog()" *ngIf="operationType === 'view'"></button>
+                            <button pButton pRipple type="button" label="Cancelar" icon="pi pi-ban" iconPos="left" class="p-button-outlined p-button-rounded" (click)="hideDialog()" *ngIf="operationType === 'new' || operationType === 'edit'"></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="deletefeeDialog" header="Eliminar Registro" [modal]="true" [style]="{width:'628px'}" [resizable]="false">
+    <ng-template pTemplate="content">
+        <div class="flex align-items-center justify-content-center">
+            <p class="delete_msg">¿Desea eliminar el registro elegido?</p>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="field grid p-fluid">
+            <div class="col-6">
+                <div class="flex justify-content-center">
+                    <button pButton pRipple type="button" label="Si" class="p-button-rounded" (click)="deleteRecord()"></button>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="flex justify-content-center">
+                    <button pButton pRipple type="button" label="No" class="p-button-outlined p-button-rounded" (click)="hidedeletefeeDialog()"></button>
+                </div>
+            </div>
+        </div>        
+    </ng-template>
+</p-dialog>
+
+<p-toast key="toast" [baseZIndex]="99999"></p-toast>
+
+<p-toast key="warn" [baseZIndex]="99999">
+    <ng-template let-message pTemplate="message">
+        <div class="flex flex-column" style="flex: 1">
+            <div class="text-center">
+                <em class="pi pi-exclamation-triangle" style="font-size: 3rem"></em>
+                <h5>{{message.summary}}</h5>
+                <ul>
+                    <em *ngFor="let item of message.detail">{{item}}</em>
+                </ul>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>

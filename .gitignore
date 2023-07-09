@@ -1,0 +1,15 @@
+build
+dist
+node_modules
+.DS_Store
+sassdoc
+
+/idea
+/.idea
+/.angular
+
+package-lock.json
+
+app/src/assets/demo/*.css
+app/src/assets/layout/css/*/layout-*.css
+app/src/assets/theme/*/theme-*.css

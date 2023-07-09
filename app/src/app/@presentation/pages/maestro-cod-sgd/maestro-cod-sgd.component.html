@@ -1,0 +1,190 @@
+<div class="grid mt-2 container">
+    <div class="col-12">
+        <div class="field grid p-fluid">
+            <div class="col-12 bcrumb">
+                <p><strong>Gestión de tablas maestras</strong> - Código SGD</p>
+            </div>
+            <div class="col-12">
+                <div class="field grid p-fluid">
+                    <div class="col-12 md:col-9 sm:col-12 field grid p-fluid justify-content-start">
+                        <div class="field grid">
+                            <div class="field grid col-12 md:col-3 sm:col-12 mr-2"><input type="text" pInputText placeholder="Asunto"></div>
+                            <div class="field grid col-12 md:col-2 sm:col-12 mr-2">
+                                <p-calendar inputId="fecha" [(ngModel)]="fecha" [readonlyInput]="true" placeholder="Fecha"></p-calendar>
+                            </div>
+                            <div class="field grid col-12 md:col-3 sm:col-12 mr-2"><input type="text" pInputText placeholder="Remitente"></div>
+                            <div class="field grid col-12 md:col-2 sm:col-12 mr-2"><button pButton pRipple type="button" label="Buscar" icon="pi pi-search" iconPos="left" class="p-button-rounded"></button></div>
+                            <div class="field grid col-12 md:col-2 sm:col-12"><button pButton pRipple type="button" label="Limpiar" icon="pi pi-trash" iconPos="left" class="p-button-outlined p-button-rounded mr-0"></button></div>
+                        </div>                    
+                    </div>
+                    <div class="col-12 md:col-3 sm:col-12 field grid p-fluid justify-content-end">
+                        <div class="col-12 md:col-7 sm:col-12">
+                            <p-button label="Nuevo registro" icon="pi pi-save" iconPos="left" (click)="openDialog('new')"></p-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="card">
+                    <p-table #dt 
+                    [value]="codsSgd" 
+                    responsiveLayout="scroll" 
+                    [rows]="10" 
+                    [paginator]="true" 
+                    [rowsPerPageOptions]="[10,20,30]" 
+                    [showCurrentPageReport]="true" 
+                    currentPageReportTemplate="Vista del {first} al {last} de {totalRecords} vistas" 
+                    [rowHover]="true" 
+                    dataKey="id">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th scope="col">Nº</th>
+                                <th scope="col">Asunto</th>
+                                <th scope="col">Fecha de emisión</th>
+                                <th scope="col">Celular</th>
+                                <th scope="col">Remitente</th>
+                                <th scope="col">Correo</th>
+                                <th scope="col">Acciones</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-cod let-rowIndex="rowIndex">
+                            <tr>
+                                <td>
+                                    {{rowIndex + 1}}
+                                </td>
+                                <td>
+                                    <p>{{cod.asunto}}</p>
+                                </td>
+                                <td>
+                                    <p>{{cod.fechaEmision | date:'dd-MM-yy' }}</p>
+                                </td>
+                                <td>
+                                    <p>{{cod.celular}}</p>
+                                </td>
+                                <td>
+                                    <p>{{cod.remitente}}</p>
+                                </td>
+                                <td>
+                                    <p>{{cod.correo}}</p>
+                                </td>
+                                <td style="text-align: center !important;width: 182px;">                                        
+                                    <a pButton pRipple icon="pi pi-pencil" class="mr-2 opt-btn opt-btn-success" pTooltip="Editar" (click)="openDialog('edit', cod.codSgdId)"></a>
+                                    <a pButton pRipple icon="pi pi-eye" class="mr-2 opt-btn opt-btn-search" pTooltip="Ver" (click)="openDialog('view', cod.codSgdId)"></a>
+                                    <a pButton pRipple icon="pi pi-trash" class="opt-btn opt-btn-danger" pTooltip="Eliminar" (click)="deleteCodSgd(cod.codSgdId)"></a>
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog [(visible)]="codSgdDialog" [style]="{width: '653px'}" [header]="dialogTitle" [modal]="true" class="p-fluid" [resizable]="false">
+    <ng-template pTemplate="content">
+        <div class="field grid">
+            <form autocomplete="off" [formGroup]="newCodSgdForm" (ngSubmit)="saveNewRecord()">
+                <div class="field grid p-fluid">
+                    <div class="col-12 md:col-6 mb-3">
+                        <div class="field field_mg_bt">
+                            <label htmlFor="asunto">Asunto</label>
+                            <input pInputText id="asunto" type="text" placeholder="Ingresar" formControlName="asunto" [ngClass]="invalidField('asunto') ? 'input_err' : ''" *ngIf="operationType !== 'view'"/>
+                            <input pInputText id="asunto" type="text" placeholder="Ingresar" formControlName="asunto" disabled *ngIf="operationType === 'view'"/>
+                        </div>
+                        <div class="col" *ngIf="invalidField('asunto')">
+                            <p-message severity="error" text="El campo Asunto es requerido"></p-message>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 mb-3">
+                        <div class="field field_mg_bt">
+                            <label htmlFor="remitente">Remitente</label>
+                            <input pInputText id="remitente" type="text" placeholder="Ingresar" formControlName="remitente" [ngClass]="invalidField('remitente') ? 'input_err' : ''" *ngIf="operationType !== 'view'"/>
+                            <input pInputText id="remitente" type="text" placeholder="Ingresar" formControlName="remitente" disabled *ngIf="operationType === 'view'"/>
+                        </div>
+                        <div class="col" *ngIf="invalidField('remitente')">
+                            <p-message severity="error" text="El campo Remitente es requerido"></p-message>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 mb-3">
+                        <div class="field field_mg_bt">
+                            <label htmlFor="celular">Celular</label>
+                            <input pInputText id="celular" type="text" placeholder="Ingresar" formControlName="celular" [ngClass]="invalidField('celular') ? 'input_err' : ''" *ngIf="operationType !== 'view'"/>
+                            <input pInputText id="celular" type="text" placeholder="Ingresar" formControlName="celular" disabled *ngIf="operationType === 'view'"/>
+                        </div>
+                        <div class="col" *ngIf="invalidField('celular')">
+                            <p-message severity="error" text="El campo Celular es requerido"></p-message>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6 mb-3">
+                        <div class="field field_mg_bt">
+                            <label htmlFor="correo">Correo</label>
+                            <input pInputText id="correo" type="text" placeholder="Ingresar" formControlName="correo" [ngClass]="invalidField('correo') ? 'input_err' : ''" *ngIf="operationType !== 'view'"/>
+                            <input pInputText id="correo" type="text" placeholder="Ingresar" formControlName="correo" disabled *ngIf="operationType === 'view'"/>
+                        </div>
+                        <div class="col" *ngIf="invalidField('correo')">
+                            <p-message severity="error" text="Correo requerido o formato incorrecto"></p-message>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-6">
+                        <div class="field field_mg_bt">
+                            <label htmlFor="fecha">Fecha</label>
+                            <p-calendar inputId="fecha" [readonlyInput]="true" placeholder="dd-mm-aaaa" dateFormat="dd-mm-yy" [touchUI]="true" formControlName="fecha" [disabled]="operationType === 'view'" [ngClass]="invalidField('fecha') ? 'input_err' : ''"></p-calendar>
+                        </div>
+                        <div class="col" *ngIf="invalidField('fecha')">
+                            <p-message severity="error" text="La fecha es requerida"></p-message>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="field grid p-fluid justify-content-center">
+            <div class="col-12 field grid p-fluid justify-content-center">
+                <button pButton pRipple type="button" label="Guardar" class="p-button-rounded" *ngIf="operationType === 'new'" (click)="saveNewRecord()" [disabled]="this.newCodSgdForm.invalid"></button>
+                <button pButton pRipple type="button" label="Guardar" class="p-button-rounded" *ngIf="operationType === 'edit'"></button>
+                <button pButton pRipple type="button" label="Cerrar" class="p-button-outlined p-button-rounded" (click)="hideDialog()" *ngIf="operationType === 'view'"></button>
+                <button pButton pRipple type="button" label="Cancelar" class="p-button-outlined p-button-rounded" (click)="hideDialog()" *ngIf="operationType === 'new' || operationType === 'edit'"></button>
+            </div>
+        </div>        
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="deleteCodSgdDialog" header="Eliminar Registro" [modal]="true" [style]="{width:'628px'}" [resizable]="false">
+    <ng-template pTemplate="content">
+        <div class="flex align-items-center justify-content-center">
+            <p class="delete_msg">¿Desea eliminar el registro elegido?</p>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="field grid p-fluid">
+            <div class="col-6">
+                <div class="flex justify-content-center">
+                    <button pButton pRipple type="button" label="No" class="p-button-outlined p-button-rounded" (click)="hideDeleteCodSgdDialog()"></button>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="flex justify-content-center">
+                    <button pButton pRipple type="button" label="Si" class="p-button-rounded" (click)="deleteRecord()"></button>
+                </div>
+            </div>
+        </div>        
+    </ng-template>
+</p-dialog>
+
+<p-toast key="toast" [baseZIndex]="99999"></p-toast>
+
+<p-toast key="warn" [baseZIndex]="99999">
+    <ng-template let-message pTemplate="message">
+        <div class="flex flex-column" style="flex: 1">
+            <div class="text-center">
+                <em class="pi pi-exclamation-triangle" style="font-size: 3rem"></em>
+                <h5>{{message.summary}}</h5>
+                <ul>
+                    <em *ngFor="let item of message.detail">{{item}}</em>
+                </ul>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>

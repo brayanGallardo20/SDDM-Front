@@ -1,0 +1,92 @@
+.logo {
+  width: 350px !important;
+  height: 60px !important;
+}
+
+.header {
+  overflow: hidden;
+  background: linear-gradient(-54deg, #EB1E23 0%, #EB1E23 72%, #FFFFFF 72%, #FFFFFF 100%) !important;
+  padding: 20px 10px;
+}
+
+@media screen and (width >= 1400px) {
+  .header {
+    overflow: hidden;
+    background: linear-gradient(-60deg, #EB1E23 0%, #EB1E23 75%, #FFFFFF 75%, #FFFFFF 100%) !important;
+    padding: 18px 8px;
+  }
+  .margin-title {
+    margin-left: 5rem !important;
+    padding-top: 1rem !important;
+  }
+}
+@media screen and (max-width: 1400px) {
+  .header {
+    overflow: hidden;
+    background: linear-gradient(-60deg, #EB1E23 0%, #EB1E23 70%, #FFFFFF 70%, #FFFFFF 100%) !important;
+    padding: 18px 8px;
+  }
+  .margin-title {
+    margin-left: 5rem !important;
+    padding-top: 1rem !important;
+  }
+}
+@media screen and (max-width: 1200px) {
+  .header {
+    overflow: hidden;
+    background: linear-gradient(-60deg, #EB1E23 0%, #EB1E23 65%, #FFFFFF 65%, #FFFFFF 100%) !important;
+    padding: 18px 8px;
+  }
+}
+@media screen and (max-width: 992px) {
+  .header {
+    overflow: hidden;
+    background: linear-gradient(-60deg, #EB1E23 0%, #EB1E23 55%, #FFFFFF 55%, #FFFFFF 100%) !important;
+    padding: 16px 6px;
+  }
+}
+@media screen and (max-width: 768px) {
+  .header {
+    overflow: hidden;
+    background: linear-gradient(-60deg, #EB1E23 0%, #EB1E23 45%, #FFFFFF 45%, #FFFFFF 100%) !important;
+    padding: 14px 4px;
+  }
+}
+@media screen and (max-width: 576px) {
+  .header {
+    overflow: hidden;
+    background: linear-gradient(-60deg, #EB1E23 0%, #EB1E23 100%, #FFFFFF 100%, #FFFFFF 100%) !important;
+    padding: 12px 2px;
+  }
+  col-12 {
+    text-align: center !important;
+  }
+  .margin-title {
+    margin-left: 0rem !important;
+    padding-top: 1rem !important;
+  }
+  .flex {
+    flex: none !important;
+  }
+  .logo {
+    text-align: center;
+    max-width: 250px !important;
+    max-height: 45px !important;
+  }
+}
+@media screen and (width <= 576px) {
+  .header {
+    overflow: hidden;
+    background: linear-gradient(-60deg, #EB1E23 0%, #EB1E23 100%, #FFFFFF 100%, #FFFFFF 100%) !important;
+    padding: 12px 2px;
+  }
+  .col-12 {
+    text-align: center !important;
+  }
+  .titulo {
+    justify-content: center !important;
+  }
+  .flex {
+    flex: none !important;
+  }
+}

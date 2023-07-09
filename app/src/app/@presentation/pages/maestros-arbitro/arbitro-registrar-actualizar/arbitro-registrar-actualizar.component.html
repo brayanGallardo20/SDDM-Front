@@ -1,0 +1,103 @@
+<div class="p-fluid p-formgrid grid">
+    <div class="field col-12 md:col-4">
+        <label htmlFor="nombre">Nombre: </label>
+        <input [disabled]="readOnly" pInputText class="p-inputtext-sm" id="nombre" [(ngModel)]="arbitro.nombre"  type="text" placeholder="Nombres"/>
+    </div>
+    <div class="field col-12 md:col-4">
+        <label htmlFor="apellidoPaterno">Apellido Paterno: </label>
+        <input [disabled]="readOnly" pInputText class="p-inputtext-sm" id="apellidoPaterno" [(ngModel)]="arbitro.apellidoPaterno"  type="text" placeholder="Apellido Paterno" />
+    </div>
+    <div class="field col-12 md:col-4">
+        <label htmlFor="apellidoMaterno">Apellido Materno: </label>
+        <input [disabled]="readOnly" pInputText class="p-inputtext-sm" id="apellidoMaterno" [(ngModel)]="arbitro.apellidoMaterno"  type="text" placeholder="Apellido Materno" />
+    </div>
+
+    <div class="field col-12 md:col-4">
+        <label htmlFor="tipoDocumentoId">Tipo Documento: </label>
+        <p-dropdown [disabled]="readOnly"  [options]="listadoTipoDocumento" class="p-inputtext-sm" [(ngModel)]="arbitro.tipoDocumentoId"
+            id="tipoDocumentoId"
+            optionLabel="nombre" 
+            optionValue="tipoDocumentoId"
+            placeholder="Seleccione un tipo documento">
+        </p-dropdown> 
+    </div>
+
+    <div class="field col-12 md:col-4">
+        <label htmlFor="declaracionInteresId">Declaración Interes: </label>
+        <p-dropdown [disabled]="readOnly"  [options]="listadoDeclaracionInteres" class="p-inputtext-sm" [(ngModel)]="arbitro.declaracionInteresId"
+        id="declaracionInteresId"
+            optionLabel="nombre" 
+            optionValue="declaracionInteresId"
+            placeholder="Seleccione una declaración interes">
+        </p-dropdown> 
+    </div>
+
+    <div class="field col-12 md:col-4">
+        <label htmlFor="especialidadId">Especialidad: </label>
+        <p-dropdown [disabled]="readOnly"  [options]="listadoEspecialidad" class="p-inputtext-sm" [(ngModel)]="arbitro.especialidadId"
+        id="especialidadId"
+            optionLabel="nombre" 
+            optionValue="especialidadId"
+            placeholder="Seleccione una especialidad">
+        </p-dropdown> 
+    </div>
+
+    <div class="field col-12 md:col-4">
+        <label htmlFor="sancionId">Sanción: </label>
+        <p-dropdown [disabled]="readOnly"  [options]="listadoSancion" class="p-inputtext-sm" [(ngModel)]="arbitro.sancionId"
+        id="sancionId"
+            optionLabel="nombre" 
+            optionValue="sancionId"
+            placeholder="Seleccione una sanción">
+        </p-dropdown> 
+    </div>
+
+    <div class="field col-12 md:col-4">
+        <label htmlFor="experienciaArbitraje">Experiencia arbitraje: </label>
+        <input [disabled]="readOnly" pInputText class="p-inputtext-sm" id="experienciaArbitraje" [(ngModel)]="arbitro.experienciaArbitraje"  type="text" placeholder="Ingrese experiencia arbitraje" />
+    </div>
+
+    <div class="field col-12 md:col-4">
+        <label htmlFor="tipo">Tipo: </label>
+        <input [disabled]="readOnly" pInputText class="p-inputtext-sm" id="tipo" [(ngModel)]="arbitro.tipo"  type="text" placeholder="Ingrese tipo" />
+    </div>
+
+
+    <div class="field col-12 md:col-4">
+        <!-- <label htmlFor="departamento">Departamento: </label>
+        <p-dropdown [disabled]="readOnly"  [options]="listadoDepartamento" class="p-inputtext-sm" [(ngModel)]="departamentoSelect"
+            (ngModelChange)="listarProvincia(departamentoSelect.ubigeoId)"
+            id="departamento"
+            optionLabel="descripcion"  
+            placeholder="Seleccione un departamento">
+        </p-dropdown>  -->
+    </div>
+
+    <div class="field col-12 md:col-4">
+        <label htmlFor="provincia">Provincia: </label>
+        <!-- <p-dropdown [disabled]="readOnly"  [options]="listadoProvincia" class="p-inputtext-sm" [(ngModel)]="provinciaSelect"
+        (ngModelChange)="listarDistrito(provinciaSelect.ubigeoId)"
+            id="provincia"
+            optionLabel="descripcion"  
+            placeholder="Seleccione una provincia">
+        </p-dropdown>  -->
+    </div>
+
+    <div class="field col-12 md:col-4">
+        <label htmlFor="distrito">Distrito: </label>
+        <p-dropdown [disabled]="readOnly"  [options]="listadoDistrito" class="p-inputtext-sm" [(ngModel)]="distritoSelect"
+            id="distrito"
+            optionLabel="descripcion"  
+            placeholder="Seleccione un distrito">
+        </p-dropdown> 
+    </div>
+</div>
+
+<div class=" field grid col-12 md:col-12 text-center" *ngIf="readOnly===false">
+    <div class="col-6">
+        <button pButton pRipple type="button" label="Guardar" class="p-button-rounded col-9" (click)="registrarActualizar()"></button>
+    </div>
+    <div class="col-6">
+        <button pButton pRipple type="button" label="Cancelar" class="p-button-outlined p-button-rounded col-9" (click)="cancelar()"></button>
+    </div>
+</div>

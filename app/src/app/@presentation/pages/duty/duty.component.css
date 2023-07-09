@@ -1,0 +1,54 @@
+p {
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
+  color: #26292E;
+}
+
+.opt-btn {
+  background-color: transparent !important;
+  border: 0px !important;
+  font-weight: 600 !important;
+}
+
+.opt-btn-success {
+  color: #26292e !important;
+}
+
+.opt-btn-search {
+  color: #26292e !important;
+}
+
+.opt-btn-danger {
+  color: #26292e !important;
+}
+
+.p-fluid .p-inline-message {
+  margin-top: 0px !important;
+}
+
+.field_mg_bt {
+  margin-bottom: 0rem !important;
+}
+
+button {
+  width: 146px !important;
+}
+
+.delete_msg {
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  line-height: 18px !important;
+  text-align: center !important;
+  color: #26292E !important;
+  padding-top: 30px !important;
+  padding-bottom: 40px !important;
+}
+
+.input_err {
+  border: 1px red solid !important;
+}
+
+.deshabilitado {
+  pointer-events: none;
+}

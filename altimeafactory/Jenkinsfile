@@ -1,0 +1,225 @@
+import hudson.model.*
+import hudson.EnvVars
+import groovy.json.JsonSlurperClassic
+import groovy.json.JsonBuilder
+import groovy.json.JsonOutput
+import java.net.URL
+import java.net.URLEncoder
+import java.time.*
+import java.time.format.DateTimeFormatter
+
+pipeline {
+    agent {
+      label 'master'
+    }
+    environment {
+        PROJECT_NAME = "mj-client"
+        BRANCHNAME  = "${env.BRANCH_NAME.replaceFirst('.+?/', '').replace(' ', '-')}"
+        SONAR_PROJECT_NAME = "MinjustClient"
+        PROJECT_KEY = "minjust-client"
+        JENKINS_JOB = "MinjustClient"
+        DISCORD_WEB_HOOK = credentials('DiscordWebHook')
+    }
+
+    stages {
+        stage('Initialize') {
+           steps {
+              notifyBuild()
+           }
+        }
+        stage("SonarQube analysis - Full") {
+            when {
+                expression { isDevelop() || isSpike() }
+            }
+            steps {
+                script {
+                    def scannerHome = tool 'sonar-scanner-9-7';
+
+                    withSonarQubeEnv('SonarQube97') {
+                        sh "${scannerHome}/bin/sonar-scanner " +
+                        "-Dsonar.projectName=${SONAR_PROJECT_NAME}:${BRANCHNAME} " +
+                        "-Dsonar.projectKey=${PROJECT_KEY}:${BRANCHNAME} " +
+                        "-Dproject.settings=altimeafactory/sonar-project.properties "
+                    }
+                }
+            }
+        }
+        /*
+        stage("SonarQube analysis - PR") {
+            when {
+                expression { env.CHANGE_ID != null }
+            }
+            steps {
+                script {
+                    def scannerHome = tool 'sonar-scanner';
+
+                    withSonarQubeEnv('SonarQube') {
+                        sh "${scannerHome}/bin/sonar-scanner " +
+                        "-Dsonar.qualitygate=QualityGate " +
+                        "-Dsonar.projectName=${SONAR_PROJECT_NAME}-${BRANCH_NAME} " +
+                        "-Dsonar.projectKey=${PROJECT_KEY}-${BRANCH_NAME} " +
+                        "-Dproject.settings=altimeafactory/sonar-project.properties "
+                    }
+                }
+            }
+        }
+
+        stage("Quality Gate - PR") {
+            when {
+                expression { env.CHANGE_ID != null }
+            }
+            steps {
+                script {
+                    context="sonarqube/qualitygate"
+                    setBuildStatus ("${context}", 'Checking Sonarqube quality gate', 'PENDING')
+                    sleep(40)
+
+                    timeout(time: 5, unit: 'MINUTES') {
+                        def qg = waitForQualityGate() // Reuse taskId previously collected by withSonarQubeEnv
+                        if (qg.status != 'OK') {
+
+                            setBuildStatus ("${context}", "Sonarqube quality gate fail: ${qg.status}", 'FAILURE')
+                            slackSend (
+                                channel: '#jenkins-drone',
+                                teamDomain: 'altimea',
+                                tokenCredentialId: 'SlackToken',
+                                color: '#F01717',
+                                message: "*$JOB_NAME*, <$BUILD_URL|Build #$BUILD_NUMBER>: Code coverage threshold was not met! <https://sonarqube.altimeafactory.com/dashboard?id=${PROJECT_KEY}-${BRANCH_NAME}>."
+                            )
+                            error "Pipeline aborted due to quality gate failure: ${qg.status}"
+                        } else {
+                                setBuildStatus ("${context}", "Sonarqube quality gate pass: ${qg.status}", 'SUCCESS')
+                        }
+                    }
+                }
+            }
+        }
+
+        stage('Deploy in factory') {
+            when {
+                 expression { isDevelop() || isFeature() || isSpike() }
+            }
+            steps {
+                  echo "Deploying project ${PROJECT_NAME} on ${BRANCHNAME} ..."
+                  // sh "cp app/env.example.yaml app/env.yaml"
+                  sh "docker stop ${PROJECT_NAME}_${BRANCHNAME} || true"
+                  sh "docker rm ${PROJECT_NAME}_${BRANCHNAME} || true"
+                  sh "docker build -t altimea/${PROJECT_NAME}:${BRANCHNAME} \
+                      --file altimeafactory/Dockerfile \
+                      --build-arg VDOMAIN_SERVER=https://${PROJECT_NAME}-${BRANCHNAME}.altimeafactory.com \
+                      ."
+                  sh "docker run -m 2048m -d \
+                      --restart always \
+                      -e VIRTUAL_HOST=${PROJECT_NAME}-${BRANCHNAME}.altimeafactory.com \
+                      -e VIRTUAL_NETWORK=bridge \
+                      -e LETSENCRYPT_HOST=${PROJECT_NAME}-${BRANCHNAME}.altimeafactory.com \
+                      -e APP_URL=https://${PROJECT_NAME}-${BRANCHNAME}.altimeafactory.com \
+                      --name ${PROJECT_NAME}_${BRANCHNAME} \
+                      altimea/${PROJECT_NAME}:${BRANCHNAME}"
+            }
+        }*/
+    }
+
+    post {
+        always {
+           notifyBuild(currentBuild.result)
+        }
+        unstable {
+           echo 'This will run only if the run was marked as unstable'
+        }
+    }
+}
+
+def isSpike() {
+    return env.BRANCH_NAME ==~ '^spike\\/[\\w\\d\\.]*$'
+}
+
+def isDevelop() {
+    return env.BRANCH_NAME == "develop"
+}
+
+def isFeature() {
+    return env.BRANCH_NAME ==~ '^feature\\/[\\w\\d\\.]*$'
+}
+
+def isMaster() {
+    return env.BRANCH_NAME == "master"
+}
+
+def isRelease() {
+    return env.BRANCH_NAME ==~ '^release\\/[\\w\\d\\.]*$'
+}
+
+def notifyBuild(String buildStatus = 'STARTED') {
+    // default build status in case is not passed as parameter
+    buildStatus = buildStatus ?: 'SUCCESS'
+    // variables and constants
+    def colorName = 'RED'
+    def colorCode = '#FF0000'
+    def from = 'jenkins@altimea.com'
+    def subject = "${buildStatus}: Job '${env.JOB_NAME} [${env.BUILD_NUMBER}]'"
+    def url = "https://ci.altimeafactory.com/blue/organizations/jenkins/${JENKINS_JOB}/detail/${BRANCHNAME}/${env.BUILD_NUMBER}/pipeline/"
+    def summary = "${subject} (${url})"
+    def details = "<p>${buildStatus}: Job <a href='${url}}]</a></p>"
+    def resultCode = ''
+
+    // override default values based on build status
+    if (buildStatus == 'STARTED') {
+        resultCode = 'UNSTABLE'
+        color = 'YELLOW'
+        colorCode = '#FFFF00'
+    } else if (buildStatus == 'SUCCESS') {
+        resultCode = 'SUCCESS'
+        color = 'GREEN'
+        colorCode = '#00FF00'
+        subject = "${buildStatus}: View Project'"
+        url = "https://${PROJECT_NAME}-${BRANCHNAME}.altimeafactory.com"
+        summary = "${subject} (${url})"
+    } else if (buildStatus == 'FAILURE') {
+        resultCode = 'FAILURE'
+    } else {
+        resultCode = 'ABORTED'
+        color = 'RED'
+        colorCode = '#FF0000'
+    }
+
+    def now = new Date()
+
+    discordSend(
+        description: "${buildStatus}: Job ${env.JOB_NAME} \nBuild: ${env.BUILD_NUMBER} \nMore info at: \n${env.BUILD_URL}",
+        footer: now.format("dd-MM-yyyy HH:mm:ss", TimeZone.getTimeZone('America/Lima')),
+        unstable: true,
+        link: env.BUILD_URL,
+        result: resultCode,
+        title: "${JOB_NAME}",
+        webhookURL: "${DISCORD_WEB_HOOK}")
+
+
+/*
+    slackSend (
+        color: colorCode,
+        message: summary,
+        channel: '#jenkins-drone',
+        teamDomain: 'altimea',
+        tokenCredentialId: 'SlackToken')*/
+}
+
+def getRepoSlug() {
+    tokens = "${env.JOB_NAME}".tokenize('/')
+    org = tokens[tokens.size()-3]
+    repo = tokens[tokens.size()-2]
+    return "${org}/${repo}"
+}
+
+
+void setBuildStatus(context, message, state) {
+  // partially hard coded URL because of https://issues.jenkins-ci.org/browse/JENKINS-36961, adjust to your own GitHub instance
+   step([
+      $class: "GitHubCommitStatusSetter",
+      contextSource: [$class: "ManuallyEnteredCommitContextSource", context: context],
+      reposSource: [$class: "ManuallyEnteredRepositorySource", url: "https://github.com/TEAMALTIMEA/${getRepoSlug()}"],
+      errorHandlers: [[$class: "ChangingBuildStatusErrorHandler", result: "UNSTABLE"]],
+      statusResultSource: [ $class: "ConditionalStatusResultSource", results: [[$class: "AnyBuildResult", message: message, state: state]] ]
+  ]);
+
+}

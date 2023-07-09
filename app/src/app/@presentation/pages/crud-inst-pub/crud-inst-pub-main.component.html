@@ -1,0 +1,43 @@
+<div class="grid mt-2 container">
+    <div class="col-12">
+        <div class="field grid p-fluid col-12">
+            <div class="col-1 bcrumb grid p-fluid">
+              <button pButton pRipple  (click)="goBack()" type="button" label="Atrás"  icon="pi pi-arrow-left" iconPos="left" class="p-button-rounded" style="width:100px !important;" (click)="goBack()"></button>
+           </div>
+            <div class="col-10 bcrumb grid p-fluid pt-2">
+                <p><strong>Operadores Arbitrales</strong> - {{labelInstitution}} - &nbsp;</p><p class="title_lnk">Nuevo Registro Información</p>
+            </div>
+            
+        </div>
+    </div>
+    <div class="col-12">
+        <div class="field grid p-fluid" style="padding-left: 30px !important; padding-right: 30px !important;">
+          
+            <p-tabView> 
+                <p-tabPanel header="Información">
+                    <ng-template pTemplate="content">
+                        <app-info-inst-pub></app-info-inst-pub>
+                    </ng-template>
+                </p-tabPanel>
+                <p-tabPanel header="Sedes" [disabled]="isDisabled">
+                    <app-sede-crud [institucionId]="insitutionId" *ngIf="isLoadComponent"></app-sede-crud>
+                </p-tabPanel>
+                <p-tabPanel header="Directivo" [disabled]="isDisabled">
+                    <app-directivo-crud [institucionId]="insitutionId" *ngIf="isLoadComponent"></app-directivo-crud>
+                </p-tabPanel>
+                <p-tabPanel header="Secretarios" [disabled]="isDisabled">
+
+                </p-tabPanel>
+                <p-tabPanel header="Árbitros" [disabled]="isDisabled">
+
+                </p-tabPanel>
+                <p-tabPanel header="Tarifas" [disabled]="isDisabled">
+                    <mant-duty [institucionId]="insitutionId" *ngIf="isLoadComponent"></mant-duty>                 
+                </p-tabPanel>
+                <p-tabPanel header="Aranceles" [disabled]="isDisabled">
+                    <mant-fee [institucionId]="insitutionId" *ngIf="isLoadComponent"></mant-fee>                 
+                </p-tabPanel>
+            </p-tabView>
+        </div>
+    </div>
+</div>

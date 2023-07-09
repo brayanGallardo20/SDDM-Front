@@ -1,0 +1,134 @@
+
+
+    <div class="col-12">
+        <h5>Datos generales</h5>
+    </div>
+    
+    <div class="col-12">
+        <form autocomplete="off"  [formGroup]="frmSede"> <!-- (submit)="update()" -->
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-4">
+                    <label htmlFor="nombre">Nombre de Sede: </label>
+                    <input pInputText id="nombre" type="text" formControlName="nombre"  [readonly]="readOnly"
+                        [maxlength]="maxLengthNombre"
+                        [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.nombre.errors }" />
+                    <p-message *ngIf="submitted && f.nombre.errors" severity="error"
+                        text="Campo requerido / Máximo {{maxLengthNombre}} caracteres"></p-message>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <label htmlFor="direccion">Dirección: </label>
+                    <input pInputText id="direccion" type="text" formControlName="direccion" [readonly]="readOnly" 
+                     [maxlength]="maxLengthDireccion"
+                        [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.direccion.errors }" />
+                    <p-message *ngIf="submitted && f.direccion.errors" severity="error"
+                    text="Campo requerido / Máximo {{maxLengthDireccion}} caracteres"></p-message>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <label htmlFor="numeroResolucionPartida">Número de Resolución: </label>
+                    <input pInputText id="numeroResolucionPartida" type="text" formControlName="numeroResolucionPartida" 
+                    [maxlength]="maxLengthNroResolucion"  [readonly]="readOnly"
+                        [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.numeroResolucionPartida.errors }" />
+                    <p-message *ngIf="submitted && f.numeroResolucionPartida.errors" severity="error"
+                    text="Campo requerido / Máximo {{maxLengthNroResolucion}} caracteres"></p-message>
+                </div>
+                <div class="field col-12 md:col-4"> 
+                    <label htmlFor="departamento">Departamento: </label>
+                    <p-dropdown    [options]="listadoDepartamento"   formControlName="departamento" [readonly]="readOnly"
+                        id="departamento" optionLabel="nombreDpto"   placeholder="Seleccione un departamento" [filter]="true"
+                        [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.departamento.errors }"> 
+                </p-dropdown>  
+                    <p-message *ngIf="submitted && f.departamento.errors" severity="error"
+                    text="Campo requerido"></p-message>
+                </div>
+                <div class="field col-12 md:col-4"> 
+                    <label htmlFor="provincia">Provincia: </label>
+                    <p-dropdown  [options]="listadoProvincia" formControlName="provincia" [readonly]="readOnly"
+                        id="provincia" optionLabel="nombreProv"   placeholder="Seleccione una provincia" [filter]="true"
+                        [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.provincia.errors }"> 
+                </p-dropdown>  
+                    <p-message *ngIf="submitted && f.provincia.errors" severity="error"
+                    text="Campo requerido"></p-message>
+                </div>
+                <div class="field col-12 md:col-4"> 
+                    <label htmlFor="distrito">Distrito: </label>
+                    <p-dropdown  [options]="listadoDistrito"   formControlName="distrito"  [readonly]="readOnly"
+                        id="distrito" optionLabel="nombreDist"   placeholder="Seleccione un distrito" [filter]="true"
+                        [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.distrito.errors }"> 
+                </p-dropdown>  
+                    <p-message *ngIf="submitted && f.distrito.errors" severity="error"
+                    text="Campo requerido"></p-message>
+                </div>
+
+                <div class="field col-12 md:col-4"> 
+                    <label htmlFor="especialidad">Especialidad: </label>
+                    <p-multiSelect [options]="listadoEspecialidad" formControlName="especialidadesSeleccionadas"  
+                    defaultLabel="Seleccionar" optionDisabled="isDisabled" styleClass="p-button-rounded"
+                    [filter]="!readOnly" [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.especialidadesSeleccionadas.errors }"
+                    optionLabel="nombre"></p-multiSelect>
+                    <p-message *ngIf="submitted && f.especialidadesSeleccionadas.errors" severity="error"
+                    text="Campo requerido"></p-message>
+                </div>
+
+                <div class="field col-12 md:col-4"> 
+                    <label htmlFor="materialArbitral">Materia Arbitral: </label>
+                    <p-multiSelect [options]="listadoMateriaArbitral" formControlName="materiaArbitralSeleccionadas" 
+                    defaultLabel="Seleccionar" optionDisabled="isDisabled"
+                    [filter]="!readOnly" [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.materiaArbitralSeleccionadas.errors }"
+                    optionLabel="nombre"></p-multiSelect>
+                    <p-message *ngIf="submitted && f.materiaArbitralSeleccionadas.errors" severity="error"
+                    text="Campo requerido"></p-message>
+                </div>
+
+                <div class="field col-12 md:col-4">
+                    <label htmlFor="telefono">Teléfono: </label>
+                    <input pInputText id="telefono" type="text" formControlName="telefono" [readonly]="readOnly"
+                    [maxlength]="maxLengthTelefono"
+                        [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.telefono.errors }" />
+                    <p-message *ngIf="submitted && f.telefono.errors" severity="error"
+                    text="Campo requerido / Máximo {{maxLengthTelefono}} caracteres"></p-message>
+                </div>
+ 
+                <div class="field col-12 md:col-8">
+                    <label htmlFor="correo">Email: </label>
+                    <input pInputText id="correo" type="text" formControlName="correo" [readonly]="readOnly"
+                    [maxlength]="maxLengthCorreo"
+                        [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.correo.errors }" /> 
+                        <div *ngIf="submitted && f.correo.errors">
+                            <p-message *ngIf="f.correo.errors.required" severity="error"   text="Campo requerido / Máximo {{maxLengthCorreo}} caracteres"
+                            ></p-message>
+                            <p-message *ngIf="f.correo.errors.pattern" severity="error"   text="Ingrese un email válido"
+                            ></p-message>
+                        </div> 
+                </div>
+
+                <div class="field col-12 md:col-4"  *ngIf="readOnly">
+                    <label htmlFor="auditUsuarioCreacion">Usuario de Creación: </label>
+                    <input pInputText id="auditUsuarioCreacion" type="text" formControlName="auditUsuarioCreacion"
+                         [readonly]="readOnly" 
+                        [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.auditUsuarioCreacion.errors }" />
+                    <p-message *ngIf="submitted && f.auditUsuarioCreacion.errors" severity="error"
+                        text="Campo requerido"></p-message>
+                </div>
+
+                <div class="field col-12 md:col-4"    *ngIf="readOnly">
+                    <label htmlFor="auditFechaCreacionFormat">Fecha de Creación: </label>
+                    <input pInputText id="auditFechaCreacionFormat" type="text" formControlName="auditFechaCreacionFormat"
+                         [readonly]="readOnly" 
+                        [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.auditFechaCreacionFormat.errors }" />
+                    <p-message *ngIf="submitted && f.auditFechaCreacionFormat.errors" severity="error"
+                        text="Campo requerido"></p-message>
+                </div>
+                
+            </div>
+            <div class="flex justify-content-center flex-wrap">
+                <div class="flex align-items-center justify-content-center">
+                    <button pButton pRipple type="button" label="Guardar" class="p-button-rounded mr-3" *ngIf="!readOnly"
+                        icon="pi pi-save" iconPos="left" (click)="saveUpdate()" ></button>
+                </div>
+                <div class="flex align-items-center justify-content-center">
+                    <button pButton pRipple type="button" label="Cancelar" class="p-button-outlined p-button-rounded"
+                        icon="pi pi-ban"  iconPos="left" (click)="cancel()"></button>
+                </div>
+            </div>
+        </form>
+    </div>

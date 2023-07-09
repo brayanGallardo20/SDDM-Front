@@ -1,0 +1,168 @@
+<div class="grid mt-2 container">
+    <div class="col-12">
+        <div class="field grid p-fluid">
+            <div class="col-12 bcrumb">
+                <p><strong>Gestión de Tablas Maestras</strong> - Etapa Arbitral</p>
+            </div>
+            <div class="col-12">
+                <div class="field grid p-fluid">
+                    <div class="col-12 md:col-9 sm:col-12 field grid p-fluid justify-content-start mr-0 ml-3">
+                        <div class="field grid">
+                            <div class="field grid col-12 md:col-4 sm:col-12 mr-2">
+                                <label for="search" class="block ml-3 search_label">Nombre:</label>
+                                <input type="text" id="search" pInputText placeholder="Ingresar" [(ngModel)]="nombreABuscar" (ngModelChange)="onNameSearchChange()">
+                            </div>
+                            <div class="field grid col-12 md:col-3 sm:col-12 align-content-end justify-content-start mr-2"><button pButton pRipple type="button" label="Buscar" icon="pi pi-search" iconPos="left" class="p-button-rounded" (click)="search(null,2)"></button></div>
+                            <div class="field grid col-12 md:col-3 sm:col-12 align-content-end"><button pButton pRipple type="button" label="Limpiar" icon="pi pi-trash" iconPos="left" class="p-button-outlined p-button-rounded mr-0" (click)="cleanFields()"></button></div>
+                        </div>                    
+                    </div>
+                    <div class="col-12 md:col-3 sm:col-12 field grid p-fluid justify-content-end">
+                        <div class="col-12 md:col-7 sm:col-12 grid align-content-center">
+                            <p-button label="Nuevo Registro" icon="pi pi-plus" iconPos="left" (click)="openDialog('new')"></p-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-12">
+                <div class="card">
+                    <p-table #dt 
+                    [value]="etapas" 
+                    responsiveLayout="scroll"  
+                    [rows]="cantidadPorPagina" 
+                    [paginator]="true" 
+                    [rowsPerPageOptions]="optionsPaginated" 
+                    [showCurrentPageReport]="true" 
+                    currentPageReportTemplate="Vista del {first} al {last} de {totalRecords} vistas" 
+                    [rowHover]="true" 
+                    [loading]="loading"
+                    [totalRecords]="totalRegistros"
+                    dataKey="id">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th scope="col">Nº</th>
+                                <th scope="col">ORDEN DE ETAPA</th>
+                                <th scope="col">NOMBRE</th>
+                                <th scope="col">ACCIONES</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-etapas let-rowIndex="rowIndex">
+                            <tr>
+                                <td>
+                                    {{rowIndex + 1}}
+                                </td>
+                                <td>
+                                    <p>{{etapas.orden}}</p>
+                                </td>
+                                <td>
+                                    <p>{{etapas.nombre}}</p>
+                                </td>
+                                <td style="text-align: center !important;width: 182px;">                                        
+                                    <a pButton pRipple icon="pi pi-pencil" class="mr-2 opt-btn opt-btn-success" pTooltip="Editar" (click)="openDialog('edit', etapas)"></a>
+                                    <a pButton pRipple icon="pi pi-eye" class="mr-2 opt-btn opt-btn-search" pTooltip="Ver" (click)="openDialog('view', etapas)"></a>
+                                    <a pButton pRipple icon="pi pi-trash" class="opt-btn opt-btn-danger" pTooltip="Eliminar" (click)="deleteEtapa(etapas)"></a>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="5">No se encontraron resultados</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+ 
+<p-dialog [(visible)]="etapadDialog" [style]="{width: '364px'}" [header]="dialogTitle" [modal]="true" class="p-fluid" [resizable]="false">
+    <ng-template pTemplate="content">
+        <div class="field grid">
+            <form autocomplete="off" [formGroup]="newEtapaForm" (ngSubmit)="this.newEtapaForm.valid && save()"  #f="ngForm">
+                <div class="field grid p-fluid">
+                    <div class="col-12 md:col-12 mb-3">
+                        <div class="field field_mg_bt">
+                            <label htmlFor="asunto">Nombre de la etapa</label>
+                            <input pInputText id="nombre" type="text" placeholder="Ingresar" formControlName="nombre" [ngClass]="f.submitted && nombre.invalid ? 'input_err' : ''" *ngIf="operationType !== 'view'" maxLength="50"/>
+                            <input pInputText id="nombre" type="text" placeholder="Ingresar" formControlName="nombre" disabled *ngIf="operationType === 'view'"/>
+                        </div>
+                        <div class="col" *ngIf="f.submitted && nombre.invalid">
+                            <p-message severity="error" text="Campo requerido / Máximo 50 caracteres"></p-message>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-12 mb-3">
+                        <div class="field field_mg_bt">
+                            <label htmlFor="asunto">Orden de la Etapa</label>
+                            <input pInputText id="orden" type="text" placeholder="Ingresar" formControlName="orden" [ngClass]="f.submitted && orden.invalid ? 'input_err' : ''" *ngIf="operationType !== 'view'"/>
+                            <input pInputText id="orden" type="text" placeholder="Ingresar" formControlName="orden" disabled *ngIf="operationType === 'view'"/>
+                        </div>
+                        <div class="col" *ngIf="f.submitted && orden.invalid">
+                            <p-message severity="error" text="El número de Orden de Etapa es requerido"></p-message>
+                        </div>
+                    </div>
+                    <div class="col-12 md:col-12 mt-3"  *ngIf="operationType === 'view'">
+                        <div class="field field_mg_bt">
+                            <label for="name">Fecha de Creación</label>
+                            <input type="text" pInputText id="fechaCreacion" name="fechaCreacion"
+                            formControlName="fechaCreacion" disabled />
+                        </div>
+                    </div>
+                </div>
+
+                <div class="field grid p-fluid justify-content-center">
+                    <div class="col-6" *ngIf="operationType === 'new' || operationType === 'edit'">
+                        <div class="flex justify-content-center">
+                            <button pButton pRipple type="submit" label="Guardar" class="p-button-rounded" icon="pi pi-save" iconPos="left"></button>
+                    </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="flex justify-content-center">
+                            <button pButton pRipple type="button" label="Cerrar" icon="pi pi-power-off" iconPos="left" class="p-button-outlined p-button-rounded" (click)="hideDialog()" *ngIf="operationType === 'view'"></button>
+                            <button pButton pRipple type="button" label="Cancelar" icon="pi pi-ban" iconPos="left" class="p-button-outlined p-button-rounded" (click)="hideDialog()" *ngIf="operationType === 'new' || operationType === 'edit'"></button>
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="deleteEtapaDialog" header="Eliminar Registro" [modal]="true" [style]="{width:'628px'}" [resizable]="false">
+    <ng-template pTemplate="content">
+        <div class="flex align-items-center justify-content-center">
+            <p class="delete_msg">¿Desea eliminar el registro elegido?</p>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="field grid p-fluid">
+            <div class="col-6">
+                <div class="flex justify-content-center">
+                    <button pButton pRipple type="button" label="Si" class="p-button-rounded" (click)="deleteRecord()"></button>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="flex justify-content-center">
+                    <button pButton pRipple type="button" label="No" class="p-button-outlined p-button-rounded" (click)="hidedeleteEtapaDialog()"></button>
+                </div>
+            </div>
+        </div>        
+    </ng-template>
+</p-dialog>
+
+<p-toast key="toast" [baseZIndex]="99999"></p-toast>
+
+<p-toast key="warn" [baseZIndex]="99999">
+    <ng-template let-message pTemplate="message">
+        <div class="flex flex-column" style="flex: 1">
+            <div class="text-center">
+                <em class="pi pi-exclamation-triangle" style="font-size: 3rem"></em>
+                <h5>{{message.summary}}</h5>
+                <ul>
+                    <em *ngFor="let item of message.detail">{{item}}</em>
+                </ul>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>

@@ -1,0 +1,25 @@
+export class Configuracion{
+    configuracionId:string;
+    concepto:string;
+    sistemaId:number;
+    sistemaVersion:string;
+    repositorio:string;
+    tipoDocumento:string;
+    tipoImagen:string;
+    tamanioDocumento:number;
+    tamanioImagen:number;
+    webServicioSeguridad:string;
+    webServicioPide:string;
+    ldapUrl:string;
+    ldapDominio:string;
+    smtpHost:string;
+    activo:number;
+    limiteDocumento:number;
+    limiteImagen:number;
+    limiteFila:number;
+    rutaLogo:string;
+    rutaLogoRelativo:number;
+    auditFechaCreacion:string;
+    auditUsuarioModifica:string;
+    auditFechaModifica:string;
+}

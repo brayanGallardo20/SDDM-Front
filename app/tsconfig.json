@@ -1,0 +1,42 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+    "compileOnSave": false,
+    "compilerOptions": {
+        "baseUrl": "./",
+        "outDir": "./dist/out-tsc",
+        "forceConsistentCasingInFileNames": true,
+        "strict": false,
+        "experimentalDecorators": true,
+        "allowJs": true,
+        "noImplicitReturns": true,
+        "noFallthroughCasesInSwitch": true,
+        "sourceMap": true,
+        "declaration": false,
+        "downlevelIteration": true,
+        "moduleResolution": "node",
+        "importHelpers": true,
+        "typeRoots": ["node_modules/@types"],
+        "target": "es2017",
+        "module": "es2020",
+        "plugins": [
+            {
+              "name": "tslint-language-service"
+            }
+          ],
+        "lib": [
+            "es2018",
+            "dom"
+        ],
+        "types": [
+            "jasmine",
+            "jasminewd2",
+            "node"
+          ]
+    },
+    "angularCompilerOptions": {
+        "enableI18nLegacyMessageIdFormat": false,
+        "strictInjectionParameters": false,
+        "strictInputAccessModifiers": false,
+        "strictTemplates": false
+    }
+}

@@ -1,0 +1,36 @@
+.title_lnk {
+  color: #88B4CC;
+  text-decoration: underline;
+}
+
+.bcrumb {
+  margin-bottom: 10px !important;
+  font-family: "Arial" !important;
+  font-style: normal !important;
+  font-size: 16px !important;
+  line-height: 18px !important;
+  color: #26292E !important;
+}
+
+.page_title {
+  font-family: "Arial" !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  font-size: 20px !important;
+  line-height: 23px !important;
+  color: #26292E !important;
+}
+
+.field {
+  margin-bottom: 0.2rem !important;
+}
+
+.main-content {
+  padding-left: 20px !important;
+  padding-right: 20px !important;
+}
+
+
+input {
+  text-transform:uppercase;
+}

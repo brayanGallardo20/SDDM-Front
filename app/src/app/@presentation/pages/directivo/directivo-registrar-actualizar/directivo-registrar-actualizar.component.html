@@ -1,0 +1,71 @@
+
+    <div class="col-12">
+        <form autocomplete="off"  [formGroup]="frmDirectivo">
+            <div class="p-fluid p-formgrid grid">
+                <div class="field col-12 md:col-4"> 
+                    <label htmlFor="tipoDocumentoId">Tipo de Documento: </label>
+                    <p-dropdown formControlName="tipoDocumentoId" [options]="tiposDoc" placeholder="Seleccionar" optionLabel="nombre" (onChange)="selectTypeDocument($event)" [ngClass]="f.submitted && invalidField('tipoDocumentoId') ? 'input_err' : ''"></p-dropdown>                        
+                    <p-message *ngIf="submitted && f.tipoDocumentoId.errors" severity="error"
+                    text="Campo requerido"></p-message>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <label htmlFor="numeroDocumento">Número de Documento: </label>
+                    <input pInputText id="numeroDocumento" maxlength="{{maxLentgh}}" (keydown)="onKeyNumeroDocumento($event)" type="text" formControlName="numeroDocumento" [readonly]="readOnly"
+                        [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.numeroDocumento.errors }" />
+                    <p-message *ngIf="submitted && f.numeroDocumento.errors" severity="error"
+                        text="Campo requerido"></p-message>
+                </div>
+                <div class="field col-12 md:col-4">
+                    <button style="margin-top: 23px;" pButton pRipple [disabled]="esPide" (click)="buscarPide()" type="button" label="Buscar" icon="pi pi-search" iconPos="left" class="p-button-primary p-button-rounded ml-3" ></button>     
+                </div>                
+                <div class="field col-12 md:col-4" [ngClass]="{'deshabilitado': deshabilitado }">
+                    <label htmlFor="apellidoPaterno">Primer Apellido: </label>
+                    <input pInputText id="apellidoPaterno" maxlength="40" type="text" formControlName="apellidoPaterno" placeholder="Ingresar" [ngClass]="f.submitted && invalidField('apellidoPaterno') ? 'input_err' : ''"/>
+                    <p-message *ngIf="submitted && f.apellidoPaterno.errors" severity="error"
+                        text="Campo requerido / Máximo 40 caracteres"></p-message>
+                </div>
+                <div class="field col-12 md:col-4" [ngClass]="{'deshabilitado': deshabilitado }">
+                    <label htmlFor="apellidoMaterno">Segundo Apellido: </label>
+                    <input pInputText id="apellidoMaterno" maxlength="40" type="text" formControlName="apellidoMaterno" placeholder="Ingresar" [ngClass]="f.submitted && invalidField('apellidoMaterno') ? 'input_err' : ''"/>                        
+                    <p-message *ngIf="submitted && f.apellidoMaterno.errors" severity="error"
+                        text="Máximo 40 caracteres"></p-message>
+                </div>
+                <div class="field col-12 md:col-4" [ngClass]="{'deshabilitado': deshabilitado }">
+                    <label htmlFor="nombre">Nombres: </label>
+                    <input pInputText id="nombre" maxlength="40" type="text" formControlName="nombre" placeholder="Ingresar" [ngClass]="f.submitted && invalidField('nombre') ? 'input_err' : ''"/>                                                
+                    <p-message *ngIf="submitted && f.nombre.errors" severity="error"
+                        text="Campo requerido / Máximo 40 caracteres"></p-message>
+                </div>
+                <div class="field col-12 md:col-4" [ngClass]="{'deshabilitado': deshabilitado }"  *ngIf="readOnly">
+                    <label htmlFor="auditUsuarioCreacion">Usuario de Creación: </label>
+                    <input pInputText id="auditUsuarioCreacion" type="text" formControlName="auditUsuarioCreacion"
+                         [readonly]="readOnly" 
+                        [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.auditUsuarioCreacion.errors }" />
+                    <p-message *ngIf="submitted && f.auditUsuarioCreacion.errors" severity="error"
+                        text="Campo requerido"></p-message>
+                </div>
+                <div class="field col-12 md:col-4" [ngClass]="{'deshabilitado': deshabilitado }"  *ngIf="readOnly">
+                    <label htmlFor="auditFechaCreacionFormat">Fecha de Creación: </label>
+                    <input pInputText id="auditFechaCreacionFormat" type="text" formControlName="auditFechaCreacionFormat"
+                         [readonly]="readOnly" 
+                        [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.auditFechaCreacionFormat.errors }" />
+                    <p-message *ngIf="submitted && f.auditFechaCreacionFormat.errors" severity="error"
+                        text="Campo requerido"></p-message>
+                </div>                                         
+            </div>
+            <div class="flex justify-content-center flex-wrap">
+                <div class="flex align-items-center justify-content-center">
+                    <button pButton pRipple type="button" label="Guardar" class="p-button-rounded mr-3" *ngIf="!readOnly"
+                        icon="pi pi-save" iconPos="left" (click)="saveUpdate()" ></button>
+                </div>
+                <div class="flex align-items-center justify-content-center" [ngClass]="{'deshabilitado': disabledButtons }">
+                    <button pButton pRipple type="button" label="Cancelar" class="p-button-outlined p-button-rounded" *ngIf="!readOnly"
+                        icon="pi pi-ban"  iconPos="left" (click)="cancel()"></button>
+                </div>
+                <div class="flex align-items-center justify-content-center" [ngClass]="{'deshabilitado': disabledButtons }">
+                    <button pButton pRipple type="button" label="Cerrar" class="p-button-outlined p-button-rounded" *ngIf="readOnly"
+                        icon="pi pi-power-off"  iconPos="left" (click)="cancel()"></button>
+                </div>                
+            </div>
+        </form>
+    </div>

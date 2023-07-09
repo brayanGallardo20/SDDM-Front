@@ -1,0 +1,157 @@
+<div class="formgrid grid mr-0 ml-0 mt-6">
+    <div class="col-12 bcrumb">
+        <p><strong>Gestión de Tablas Maestras</strong> - {{descripcionCrud}}</p>
+    </div>
+    <div class="col-12">
+        <div class="field grid p-fluid">
+            <div class="col-12 md:col-9 sm:col-12 field grid p-fluid justify-content-start">
+                <div class="field grid">
+                    <div class="field grid col-12 md:col-5 sm:col-12 mr-3">
+                        <label for="search" class="block ml-3 search_label">{{descripcionLabelSearch}}:</label>
+                        <input type="text" id="search" pInputText placeholder="Ingresar" id="nameSearch" name="nameSearch" [(ngModel)]="nameSearch" (ngModelChange)="onNameSearchChange()">
+                    </div>
+                    <div class="field grid col-12 md:col-3 sm:col-12 align-content-end justify-content-start mr-2"><button pButton pRipple type="button" label="Buscar" icon="pi pi-search" iconPos="left" class="p-button-rounded"(click)="search(null,2)"></button></div>
+                    <div class="field grid col-12 md:col-3 sm:col-12 align-content-end"><button pButton pRipple type="button" label="Limpiar" icon="pi pi-trash" iconPos="left" class="p-button-outlined p-button-rounded" (click)="clean()"></button></div>
+                </div>                    
+            </div>
+            <div class="col-12 md:col-3 sm:col-12 field grid p-fluid justify-content-end">
+                <div class="col-12 md:col-7 sm:col-12 grid align-content-center">
+                    <p-button label="Nuevo Registro" icon="pi pi-plus" iconPos="left" (click)="new()"></p-button>
+                </div>
+            </div>
+        </div>
+    </div> 
+</div>
+<div class="col-12">
+    <div class="card">
+        <p-table #dt2 [value]="master" [lazy]="true" (onLazyLoad)="list($event)" dataKey="id" [rowHover]="true"
+            [resizableColumns]="true" [responsive]="true" [scrollable]="true" [rows]="cantidadPorPagina"
+            [paginator]="true" [showCurrentPageReport]="true"
+            currentPageReportTemplate="Mostrando {first} hasta {last} de {totalRecords} registros"
+            [rowsPerPageOptions]="optionsPaginated" [loading]="loading" [totalRecords]="totalRegistros">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th style="min-width:10%;display: grid;" scope="col">Nº</th>
+                    <th style="min-width:70%;display: grid;" scope="col">{{descripcionLabelTabla}}</th>
+                    <th style="min-width:20%;display: grid;" scope="col">ACCIONES</th>
+                </tr>
+            </ng-template> 
+            <ng-template pTemplate="body" let-master let-rowIndex="rowIndex">
+                <tr>
+                    <td style="min-width:10%;display: grid;">
+                        {{rowIndex + 1 }}
+                    </td>
+                    <td  style="min-width:70%;display: grid;">
+                        {{master.nombre | uppercase}}
+                    </td>
+                    <td style="min-width:20%;display: grid;">
+                        <div class="flex-center">
+                            <a pButton pRipple icon="pi pi-pencil" class="mr-2 opt-btn opt-btn-success"
+                                (click)="editMaster(master)" pTooltip="Editar"></a>
+                            <a pButton pRipple icon="pi pi-eye" class="mr-2 opt-btn opt-btn-search"
+                                (click)="seeMaster(master)" pTooltip="Ver"></a>
+                            <a pButton pRipple icon="pi pi-trash" class="opt-btn opt-btn-danger"
+                                (click)="deleteMaster(master)" pTooltip="Eliminar"></a>
+                        </div>
+                    </td>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+                <tr>
+                    <td colspan="5">No se encontraron resultados</td>
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+</div>
+<div class="col-12">
+    <p-dialog [(visible)]="masterDialog" [style]="{width: '364px'}" header="{{title}}" [modal]="true"
+        class="p-fluid" [resizable]="false" (onHide)="hideDialog()">
+        <ng-template pTemplate="content">
+            <form name="form" (ngSubmit)="this.masterForm.valid && saveMaster()" [formGroup]="masterForm" #f="ngForm">
+                <div class="field">
+                    <label for="name">{{descripcionLabel}}</label>
+                        <input type="text" pInputText id="nombre" name="nombre" formControlName="name"
+                        [ngClass]="{'ng-invalid ng-dirty' : invalidField('name')}" 
+                        placeholder="Ingresar" maxlength="50"/>
+                    <p-message severity="error" text="Nombre es requerido / Máximo {{maxChars}} caracteres" *ngIf="f.submitted && invalidField('name')"></p-message>
+                </div>
+                <div class="col">
+                    <br>
+                  </div>
+                <div class="field grid p-fluid justify-content-center">
+                    <div class="col-6">
+                        <button pButton pRipple type="submit" label="Guardar" icon="pi pi-save" iconPos="left" class="p-button-rounded mr-2"></button>
+                    </div>
+                    <div class="col-6">
+                        <button pButton pRipple type="button" label="Cancelar" icon="pi pi-ban" iconPos="left" class="p-button-outlined p-button-rounded ml-2" (click)="hideDialog()"></button>
+                    </div>
+                </div>
+
+            </form>
+        </ng-template>
+        <ng-template pTemplate="footer">
+        </ng-template>
+    </p-dialog>
+    <p-dialog [(visible)]="seeMasterDialog" [style]="{width: '364px'}" header="Ver Registro" [modal]="true"
+        class="p-fluid">
+        <ng-template pTemplate="content">
+            <form name="form" (ngSubmit)="f.form.valid && saveMaster()" [formGroup]="masterForm">
+                <div class="field">
+                    <label for="name">Nombre</label>
+                    <input type="text" pInputText id="nombre" name="nombre" formControlName="name"
+                    disabled />
+                </div>
+                <div class="field">
+                    <label for="name">Fecha de Creación</label>
+                    <input type="text" pInputText id="fechaCreacion" name="fechaCreacion"
+                    formControlName="creationDate" disabled />
+                </div>
+
+                <div class="col">
+                    <br>
+                  </div>
+                <div class="field grid p-fluid justify-content-center">
+                    <div class="col-6">
+                        <button pButton pRipple type="button" label="Cerrar" icon="pi pi-power-off" iconPos="left" class="p-button-outlined p-button-rounded" (click)="seeMasterDialog = false"></button>
+                    </div>
+                </div>
+            </form>
+        </ng-template>
+    </p-dialog>
+    <p-dialog [(visible)]="deleteMasterDialog" header="Eliminar Registro" [modal]="true" [style]="{width:'450px'}">
+        <ng-template pTemplate="content">
+            <div class="flex align-items-center justify-content-center">
+                <p class="delete_msg">¿Desea eliminar el registro elegido?</p>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="footer">
+            <div class="field grid p-fluid">
+                <div class="col-6">
+                    <div class="flex justify-content-center">
+                        <button pButton pRipple type="button" label="Si" class="p-button-rounded" (click)="confirmDelete()"></button>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="flex justify-content-center">
+                        <button pButton pRipple type="button" label="No" class="p-button-outlined p-button-rounded" (click)="deleteMasterDialog = false"></button>
+                    </div>
+                </div>
+            </div>        
+        </ng-template>
+    </p-dialog>
+    <p-toast key="toast" [baseZIndex]="99999"></p-toast>
+    <p-toast key="warn" [baseZIndex]="99999">
+        <ng-template let-message pTemplate="message">
+            <div class="flex flex-column" style="flex: 1">
+                <div class="text-center">
+                    <em class="pi pi-exclamation-triangle" style="font-size: 3rem"></em>
+                    <h5>{{message.summary}}</h5>
+                    <ul>
+                        <em *ngFor="let item of message.detail">{{item}}</em>
+                    </ul>
+                </div>
+            </div>
+        </ng-template>
+    </p-toast>
+</div>

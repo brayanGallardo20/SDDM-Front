@@ -1,0 +1,77 @@
+<div class="p-fluid p-formgrid grid">
+    <div class="field col-12 md:col-6">
+        <label htmlFor="tabla">Nombre de la Tabla: </label>
+        <input [disabled]="readOnly" pInputText class="p-inputtext-sm" id="tabla" [(ngModel)]="auditoriaDetalle.tabla"
+            type="text" placeholder="Nombres" />
+    </div>
+    <div class="field col-12 md:col-6">
+        <label htmlFor="auditTipo">Tipo Movimiento: </label>
+        <input [disabled]="readOnly" pInputText class="p-inputtext-sm" id="auditTipo"
+            [(ngModel)]="auditoriaDetalle.auditTipoDesc" type="text" placeholder="Tipo Movimiento" />
+    </div>
+    <div class="field col-12 md:col-6">
+        <label htmlFor="auditUsuario">Usuario: </label>
+        <input [disabled]="readOnly" pInputText class="p-inputtext-sm" id="auditUsuario"
+            [(ngModel)]="auditoriaDetalle.auditUsuario" type="text" placeholder="Apellido Materno" />
+    </div>
+
+    <div class="field col-12 md:col-6">
+        <label htmlFor="auditFechaFormat">Fecha: </label>
+        <input [disabled]="readOnly" pInputText class="p-inputtext-sm" id="auditFechaFormat"
+            [(ngModel)]="formatDate" type="text" placeholder="Apellido Materno" />
+    </div>
+    <div class="field col-12 md:col-6">
+        <label class="font-bold" htmlFor="valorOriginal">Valor Original: </label>
+        <p-table [value]="keysValorOriginal" [resizableColumns]="true" [rowHover]="true"
+            styleClass="p-datatable-sm  p-datatable-gridlines" *ngIf="keysValorOriginal.length>0">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th scope="col" pResizableColumn>Clave</th>
+                    <th scope="col" pResizableColumn>Valor</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-key>
+                <tr>
+                    <td>{{key}}</td>
+                    <td>
+                        <pre> {{valorOriginal[key]}}</pre>
+                    </td> 
+                </tr>
+            </ng-template>
+        </p-table>
+    </div>
+
+    <div class="field col-12 md:col-6">
+        <label class="font-bold" htmlFor="valorFinal">Valor Final: </label>
+        <p-table [value]="keysValorFinall" [resizableColumns]="true" [rowHover]="true"
+            styleClass="p-datatable-sm p-datatable-gridlines" *ngIf="keysValorFinall.length>0">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th scope="col" pResizableColumn>Clave</th>
+                    <th scope="col" pResizableColumn>Valor</th>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-key>
+                <tr>
+                    <td>{{key}}</td>
+                    <td>
+                        <pre> {{valorFinal[key]}}</pre>
+                    </td> 
+                </tr>
+            </ng-template>
+        </p-table>
+    </div> 
+
+    <div class="field col-3 md:col-4">
+        <br>
+    </div>
+        <div class="field col-12 md:col-3">
+            <div class="flex justify-content-center">
+                <button pButton pRipple type="button" icon="pi pi-power-off" iconPos="left" label="Cerrar" class="p-button-outlined p-button-rounded"
+                    (click)="close()"></button>
+            </div>
+        </div>
+        <div class="field col-3 md:col-4">
+            <br>
+        </div>
+</div>

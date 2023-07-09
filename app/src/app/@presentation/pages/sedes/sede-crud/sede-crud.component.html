@@ -1,0 +1,113 @@
+<div class="grid">
+    <div class="col-12 md:col-12">
+        <div class="p-fluid col-12">
+            <div class="col-12 bcrumb" style="margin-bottom:20px !important;">
+                <p><strong>Matenimiento de sedes</strong></p>
+            </div>
+            <div class="col-12">
+                <div class="field grid p-fluid">
+                    <div class="col-12 md:col-9 sm:col-12 field grid p-fluid justify-content-start mr-0 ml-3">
+                        <div class="field grid">
+                            <div class="field grid col-12 md:col-4 sm:col-12 mr-2">
+                                <label for="search" class="block ml-3 search_label">Nombre de Sede:</label>
+                                <input [(ngModel)]="nombre" type="text" id="search" pInputText placeholder="Ingresar"
+                                (ngModelChange)="onNameSearchChange()"  (keyup.enter)="buscar(null,2)">
+                            </div>
+                            <div
+                                class="field grid col-12 md:col-3 sm:col-12 align-content-end justify-content-start mr-2">
+                                <button pButton pRipple type="button" label="Buscar" icon="pi pi-search" iconPos="left"
+                                    (click)="buscar(null,2)" class="p-button-rounded"></button>
+                            </div>
+                            <div class="field grid col-12 md:col-3 sm:col-12 align-content-end">
+                                <button pButton pRipple type="button" label="Limpiar" icon="pi pi-trash" iconPos="left"
+                                    (click)="limpiar()" class="p-button-outlined p-button-rounded mr-0"></button>
+                            </div>
+                        </div>
+                    </div> 
+                    <div class="col-12 md:col-3 sm:col-12 field grid p-fluid justify-content-end">
+                        <div class="col-12 md:col-7 sm:col-12 grid align-content-center">
+                            <p-button label="Nuevo Registro" icon="pi pi-plus" iconPos="left"
+                                (click)="evaluarRegistrarActualizar({},false)"></p-button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-12">
+                <div class="card">
+                    <p-table [value]="respuesta.data " [lazy]="true" (onLazyLoad)="cargarSede($event)" dataKey="sedeId"
+                        [rowHover]="true" [resizableColumns]="true" [responsive]="true" [scrollable]="true"
+                        [rows]="cantidadPorPagina" [paginator]="true" [showCurrentPageReport]="true"
+                        scrollDirection="horizontal"
+                        currentPageReportTemplate="Mostrando {first} hasta {last} de {totalRecords} registros"
+                        [rowsPerPageOptions]="optionsPaginated" [loading]="loading"
+                        [totalRecords]="respuesta.totalRegistros">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th scope="col" pResizableColumn style="max-width:5%">N° </th>
+                                <th scope="col" pResizableColumn style="max-width:30%">NOMBRE DE SEDE </th>
+                                <th scope="col" pResizableColumn style="max-width:30%">DIRECCIÓN </th>
+                                <th scope="col" pResizableColumn style="max-width:10%"> TELÉFONO</th>
+                                <th scope="col" pResizableColumn style="max-width:15%">EMAIL</th>
+                                <th scope="col" pResizableColumn style="max-width:10%">ACCIONES</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-data let-rowIndex="rowIndex">
+                            <tr>
+                                <td style="max-width: 5%">{{rowIndex+1}}</td>
+                                <td style="max-width: 30%">{{data.nombre}}</td>
+                                <td style="max-width: 30%">{{data.direccion}}</td>
+                                <td style="max-width: 10%">{{data.telefono}}</td>
+                                <td style="max-width: 15%">{{data.correo}}</td>
+                                <td  style="max-width: 10%; text-align: center !important;">
+                                    <button pButton pRipple type="button" pTooltip="Editar"
+                                        (click)="evaluarRegistrarActualizar(data,false)" icon="pi pi-pencil"
+                                        class="p-button-rounded p-button-text p-button-secondary"></button>
+                                    <button pButton pRipple type="button" pTooltip="Ver" icon="pi pi-eye"
+                                    (click)="evaluarRegistrarActualizar(data,true)"    
+                                    class="p-button-rounded p-button-text p-button-secondary"></button>
+                                    <button pButton pRipple type="button" pTooltip="Eliminar" icon="pi pi-trash"
+                                    (click)="abrirConfirmacionEliminar(data)"
+                                        class="p-button-rounded p-button-text p-button-secondary"></button>
+                                </td>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                                <td>
+                                    No se encontraron registros
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast key="toast" position="top-center"></p-toast>
+
+
+<p-dialog [(visible)]="dialogDeleteVisible" header="Eliminar Registro" [modal]="true" [style]="{width:'628px'}" [resizable]="false">
+    <ng-template pTemplate="content">
+        <div class="flex align-items-center justify-content-center">
+            <p class="delete_msg">¿Desea eliminar el registro elegido?</p>
+            <br>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="field grid p-fluid">
+            <div class="col-6">
+                <div class="flex justify-content-center">
+                    <button pButton pRipple type="button"  label="Si" class="p-button-rounded button-delete" (click)="deleteById()"></button>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="flex justify-content-center">
+                    <button pButton pRipple type="button" label="No" class="p-button-outlined p-button-rounded button-delete" (click)="closeModalDelete()"></button>
+                </div>
+            </div>
+        </div>        
+    </ng-template>
+</p-dialog>

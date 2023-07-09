@@ -1,0 +1,168 @@
+<div class="grid mt-2 container">
+    <div class="col-12">
+        <div class="field grid p-fluid">
+            <div class="col-12 bcrumb">
+                <p><strong>Gestión de Tablas Maestras -</strong> Tipo Documento Identidad</p>
+            </div>
+            <div class="col-12">
+                <div class="field grid p-fluid">
+                    <div class="col-12 md:col-9 sm:col-12 field grid p-fluid justify-content-start mr-0 ml-3">
+                        <div class="field grid">
+                            <div class="field grid col-12 md:col-5 sm:col-12 mr-3">
+                                <label for="search" class="block ml-3 search_label">Descripción:</label>
+                                <input type="text" id="search" pInputText placeholder="Ingresar" id="nameSearch" name="nameSearch" [(ngModel)]="nameSearch" (ngModelChange)="onNameSearchChange()">
+                            </div>
+                            <div class="field grid col-12 md:col-3 sm:col-12 align-content-end justify-content-start mr-2"><button pButton pRipple type="button" label="Buscar" icon="pi pi-search" iconPos="left" class="p-button-rounded" (click)="search(null,2)"></button></div>
+                            <div class="field grid col-12 md:col-3 sm:col-12 align-content-end"><button pButton pRipple type="button" label="Limpiar" icon="pi pi-trash" iconPos="left" class="p-button-outlined p-button-rounded" (click)="clean()"></button></div>
+                        </div>                    
+                    </div>
+                    <div class="col-12 md:col-3 sm:col-12 field grid p-fluid justify-content-end">
+                        <div class="col-12 md:col-7 sm:col-12 grid align-content-center">
+                            <p-button label="Nuevo Registro" icon="pi pi-plus" iconPos="left" (click)="openDialog('new')"></p-button>
+                        </div>
+                    </div>
+                </div>
+            </div>  
+            <div class="col-12">
+                <div class="card">
+                    <p-table #dt                     
+                        [value]="tiposDoc" 
+                        [lazy]="true" 
+                        (onLazyLoad)="list($event)" 
+                        dataKey="id"
+                         [rowHover]="true" [resizableColumns]="true"
+                        [responsive]="true"
+                        [scrollable]="true"
+                        [rows]="cantidadPorPagina"
+                        [paginator]="true"  
+                        [showCurrentPageReport]="true" 
+                        currentPageReportTemplate="Mostrando {first} hasta {last} de {totalRecords} registros" 
+                        [rowsPerPageOptions]="optionsPaginated" 
+                        [loading]="loading"
+                        [totalRecords]="totalRegistros">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th scope="col">Nº</th>
+                                <th scope="col">DESCRIPCIÓN</th>
+                                <th scope="col">PIDE</th>
+                                <th scope="col">ACCIONES</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-tipo let-rowIndex="rowIndex">
+                            <tr>
+                                <td>
+                                    {{rowIndex + 1}}
+                                </td>
+                                <td>
+                                    <p>{{tipo.nombre}}</p>
+                                </td>
+                                <td>
+                                    <p-checkbox [binary]="true" [(ngModel)]="tipo.pideCheckBox" [disabled]="true"></p-checkbox>
+                                </td>
+                                <td style="text-align: center !important;width: 182px;">                                        
+                                    <a pButton pRipple icon="pi pi-pencil" class="mr-2 opt-btn opt-btn-success" pTooltip="Editar" (click)="openDialog('edit', tipo.tipoDocId,tipo)"></a>
+                                    <a pButton pRipple icon="pi pi-eye" class="mr-2 opt-btn opt-btn-search" pTooltip="Ver" (click)="openDialog('view', tipo.tipoDocId,tipo)"></a>
+                                    <a pButton pRipple icon="pi pi-trash" class="opt-btn opt-btn-danger" pTooltip="Eliminar" (click)="deleteTipoDoc(tipo)"></a>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage">
+                            <tr>
+                                <td colspan="5">No se encontraron resultados</td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<p-dialog [(visible)]="tipoDocDialog" [style]="{width: '364px'}" [header]="dialogTitle" [modal]="true" class="p-fluid" [resizable]="false">
+    <ng-template pTemplate="content">
+        <div class="field grid">
+            <form name="form" (ngSubmit)="f.form.valid && save()" #f="ngForm">
+            <div class="col-12 md:col-12">
+                <div class="field field_mg_bt">
+                    <label htmlFor="descripcion">Descripción</label>
+                    <input pInputText id="descripcion" name="descripcion" type="text" [(ngModel)]="tipoDoc.nombre" placeholder="Ingresar" 
+                    maxlength="50" [disabled]="operationType === 'view'" required (ngModelChange)="this.tipoDoc.nombre = onInputChange($event)"/>
+                </div>
+            </div>  
+            <div class="col" *ngIf="f.submitted && !tipoDoc.nombre">
+                <p-message severity="error" text="Error: La descripción es requerida / Máximo 50 caracteres"></p-message>
+            </div>
+            <div class="col-12 md:col-12 mt-3">
+                <div class="field-checkbox">
+                    <p-checkbox [(ngModel)]="tipoDoc.pideCheckBox" name="pide" [binary]="true" inputId="pidechk" [disabled]="operationType === 'view'"></p-checkbox>
+                    <label for="pidechk">PIDE</label>
+                </div>
+            </div>
+            <div class="col-12 md:col-12 mt-3"  *ngIf="operationType === 'view'">
+                <div class="field field_mg_bt">
+                    <label for="name">Fecha de Creación</label>
+                    <input type="text" pInputText id="fechaCreacion" name="fechaCreacion"
+                    [(ngModel)]="tipoDoc.auditFechaCreacionFormat" disabled />
+                </div>
+            </div>
+            <div class="col">
+              <br>
+            </div>
+            <div class="field grid p-fluid justify-content-center">
+                <div class="col-6" *ngIf="operationType === 'new' || operationType === 'edit'">
+                    <div class="flex justify-content-center">
+                        <button type="submit" pButton pRipple label="Guardar" class="p-button-rounded" icon="pi pi-save" iconPos="left"></button>                  
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="flex justify-content-center">
+                        <button pButton pRipple type="button" label="Cerrar" icon="pi pi-power-off" iconPos="left" class="p-button-outlined p-button-rounded" (click)="hideDialog()" *ngIf="operationType === 'view'"></button>
+                        <button pButton pRipple type="button" label="Cancelar" icon="pi pi-ban" iconPos="left" class="p-button-outlined p-button-rounded" (click)="hideDialog()" *ngIf="operationType === 'new' || operationType === 'edit'"></button>
+                    </div>
+                </div>
+            </div>
+        </form>
+
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+    </ng-template>
+</p-dialog>
+
+<p-dialog [(visible)]="deleteTipoDocDialog" header="Eliminar Registro" [modal]="true" [style]="{width:'628px'}" [resizable]="false">
+    <ng-template pTemplate="content">
+        <div class="flex align-items-center justify-content-center">
+            <p class="delete_msg">¿Desea eliminar el registro elegido?</p>
+        </div>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <div class="field grid p-fluid">
+            <div class="col-6">
+                <div class="flex justify-content-center">
+                    <button pButton pRipple type="button" label="Si" class="p-button-rounded" (click)="confirmDelete()"></button>
+                </div>
+            </div>
+            <div class="col-6">
+                <div class="flex justify-content-center">
+                    <button pButton pRipple type="button" label="No" class="p-button-outlined p-button-rounded" (click)="deleteTipoDocDialog = false"></button>
+                </div>
+            </div>
+        </div>        
+    </ng-template>
+</p-dialog>
+
+<p-toast key="toast" [baseZIndex]="99999"></p-toast>
+
+<p-toast key="warn" [baseZIndex]="99999">
+    <ng-template let-message pTemplate="message">
+        <div class="flex flex-column" style="flex: 1">
+            <div class="text-center">
+                <em class="pi pi-exclamation-triangle" style="font-size: 3rem"></em>
+                <h5>{{message.summary}}</h5>
+                <ul>
+                    <em *ngFor="let item of message.detail">{{item}}</em>
+                </ul>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>

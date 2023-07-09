@@ -1,0 +1,17 @@
+:ng-deep .layout-menu-light.layout-horizontal div.layout-sidebar {
+    background-color: #DFDEDE !important;
+    top: 100px!important;
+}
+
+.layout-sidebar {
+    top: 100px!important;
+}
+
+.layout-menu-container {
+    background: linear-gradient(180deg, #EAE9E9 0%, #C4C4C4 100%) !important;
+}
+
+::ng-deep .p-menubar-end {
+    margin-left: initial!important;
+    align-self: center!important;
+}

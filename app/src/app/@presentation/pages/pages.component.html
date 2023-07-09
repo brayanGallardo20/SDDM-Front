@@ -1,0 +1,26 @@
+<div class="layout-wrapper" (click)="onLayoutClick()" [ngClass]="{'layout-horizontal': horizontalMenu,
+             'layout-wrapper-static': staticMenuActive,
+             'layout-rightpanel-active': rightPanelActive,
+             'layout-topbar-mobile-active': topbarMobileMenuActive,
+             'layout-megamenu-mobile-active': megaMenuMobileActive,
+             'layout-sidebar-mobile-active': menuMobileActive,
+             'p-input-filled': inputStyle === 'filled',
+             'p-ripple-disabled': !ripple}" [class]="menuColor">
+
+    <centro-arbitraje-sidenav></centro-arbitraje-sidenav>
+
+    <div class="layout-main">
+
+        <centro-arbitraje-header></centro-arbitraje-header>
+
+        <div class="layout-content">
+            <router-outlet></router-outlet>
+            
+        </div>
+        <centro-arbitraje-footer></centro-arbitraje-footer>
+
+        <div class="layout-main-mask"></div>
+
+        <div class="layout-config-mask" *ngIf="configActive" [@mask-anim]="'visible'"></div>
+    </div>
+</div>

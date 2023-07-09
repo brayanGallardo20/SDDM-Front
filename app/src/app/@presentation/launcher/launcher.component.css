@@ -1,0 +1,33 @@
+p {
+  font-family: "Arial" !important;
+  font-style: normal !important;
+  font-weight: 700 !important;
+  font-size: 16px !important;
+  line-height: 18px !important;
+  color: #26292E !important;
+}
+
+.card {
+  width: 640px !important;
+  height: 80px !important;
+  left: 400px !important;
+  top: 308px !important;
+  background: #FFFFFF !important;
+  box-shadow: 0px 0px 20px 4px rgba(0, 0, 0, 0.1) !important;
+  border-radius: 10px !important;
+}
+
+a {
+  font-family: "Arial" !important;
+  font-style: normal !important;
+  font-weight: 400 !important;
+  font-size: 16px !important;
+  line-height: 18px !important;
+  color: #0056AC !important;
+}
+
+@media screen and (min-width: 768px) {
+  .md\:mt-8 {
+    margin-top: 10.5rem !important;
+  }
+}

@@ -1,0 +1,134 @@
+.layout-topbar {
+    height: 100px !important;
+    background: linear-gradient(-54deg, #EB1E23 0%, #EB1E23 72%, #FFFFFF 72%, #FFFFFF 100%) !important;
+}
+
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+    .layout-topbar {
+        height: 100px !important;
+        background: #FFFFFF 100%!important;
+    }
+
+    img {
+        max-width: 100% !important;
+    }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) {
+    .layout-topbar {
+        height: 100px !important;
+        background: linear-gradient(-54deg, #EB1E23 0%, #EB1E23 55%, #FFFFFF 38%, #FFFFFF 100%) !important;
+    }
+
+    img {
+        max-width: 80% !important;
+    }
+
+    .sidebar-menu-button i {
+        color:#FFFFFF !important;
+    }
+    
+    .topbar-menu-mobile-button i {
+        color:#FFFFFF !important;
+    }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) {
+
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+    .layout-topbar {
+        height: 100px !important;
+        background: linear-gradient(-54deg, #EB1E23 0%, #EB1E23 72%, #FFFFFF 72%, #FFFFFF 100%) !important;
+    }
+
+    img {
+        max-width: 66% !important;
+    }
+
+    img.logoImage {
+        max-width: 100% !important;  
+    }
+
+}
+
+/* Extra large devices (large laptops and desktops, 1200px and up) */
+@media only screen and (min-width: 1200px) {
+    .layout-topbar {
+        height: 100px !important;
+        background: linear-gradient(-54deg, #EB1E23 0%, #EB1E23 72%, #FFFFFF 72%, #FFFFFF 100%) !important;
+    }
+    
+    img.logoImage {
+        max-width: 100% !important;  
+    }
+}
+
+.layout-topbar-left {
+    height: 100px !important;
+}
+
+.layout-topbar-right {
+    height: 100px !important;
+}
+
+.layout-topbar-wrapper {
+    height: 100px !important;
+}
+
+.name-user {
+    font-family: 'Arial' !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    font-size: 14px !important;
+    line-height: 11px !important;
+    color: #FFFFFF !important;
+    margin-bottom: 5px !important;
+}
+
+.name-system {
+    font-family: 'Arial' !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    font-size: 13px !important;
+    line-height: 11px !important;
+    color: #FFFFFF !important;
+    margin-top: 5px !important;
+
+}
+
+.subtitle {
+    font-weight: 700 !important;
+    font-size: 20px !important;
+    line-height: 23px !important;
+    color: #FFFFFF !important;
+    margin-top: 1% !important;
+
+}
+
+.title {
+    font-weight: 700 !important;
+    font-size: 24px !important;
+    line-height: 28px !important;
+    margin-bottom: 2px !important;
+    color: #FFFFFF !important;
+    margin-top: 2% !important;
+}
+
+.profile-info-wrapper {
+    margin-left: 5px !important;
+}
+
+.layout-topbar-logo-wrapper {
+    width: 33% !important;
+}
+
+.layout-topbar-logo-wrapper svg {
+    padding-top: 5px !important;
+}

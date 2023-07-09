@@ -1,0 +1,194 @@
+<div class="grid mt-2 container">
+    <div class="col-12 md:col-12">
+        <div class="p-fluid col-12">
+            <div class="col-12 bcrumb" style="margin-bottom:20px !important;">
+                <p><strong>Gestión de Configuración</strong></p>
+            </div>
+
+            <div class="col-12">
+                <div class="field grid p-fluid">
+                    <div class="col-12  lg:col-4 md:col-4 sm:col-12">
+                    </div>
+                    <div class="col-12  lg:col-4 md:col-6 sm:col-6">
+                        <div class="col-12 md:col-12 sm:col-12 field grid p-fluid justify-content-center">
+                            <span class="text-2xl font-semibold text-900">Configuración</span>
+                        </div>
+                    </div>
+                    <div class="col-12  lg:col-4">
+                        <div class="col-12 md:col-12 sm:col-12 field grid p-fluid justify-content-end">
+                            <p-button *ngIf="!frmConfiguracion.enabled" label="Editar" icon="pi pi-pencil"
+                                iconPos="left" (click)="initUpdate()"></p-button>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+
+            <div class="grid card">
+                <div class="col-12">
+                    <form autocomplete="off" (submit)="update()" [formGroup]="frmConfiguracion">
+                        <div class="p-fluid p-formgrid grid">
+                            <div class="field col-12 md:col-4">
+                                <label htmlFor="concepto">Concepto de configuración: </label>
+                                <input pInputText id="concepto" type="text" formControlName="concepto"
+                                    [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.concepto.errors }" />
+                                <p-message *ngIf="submitted && f.concepto.errors" severity="error"
+                                    text="Campo requerido"></p-message>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label htmlFor="sistemaVersion">Versión del sistema: </label>
+                                <input pInputText id="sistemaVersion" type="text" formControlName="sistemaVersion"
+                                    [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.sistemaVersion.errors }" />
+                                <p-message *ngIf="submitted && f.sistemaVersion.errors" severity="error"
+                                    text="Campo requerido"></p-message>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label htmlFor="sistemaId">Identificador del sistema: </label>
+                                <input pInputText id="sistemaId" type="text" formControlName="sistemaId"  
+                                    [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.sistemaId.errors }" />
+                                <p-message *ngIf="submitted && f.sistemaId.errors" severity="error"
+                                    text="Campo requerido"></p-message>
+                            </div>
+                            <div class="field col-12 md:col-8">
+                                <label htmlFor="repositorio">Repositorio de archivos: </label>
+                                <input pInputText id="repositorio" type="text" formControlName="repositorio"
+                                    [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.repositorio.errors }" />
+                                <p-message *ngIf="submitted && f.repositorio.errors" severity="error"
+                                    text="Campo requerido"></p-message>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label htmlFor="smtpHost">SMTP Servidor de correo: </label>
+                                <input pInputText id="smtpHost" type="text" formControlName="smtpHost"
+                                    [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.smtpHost.errors }" />
+                                <p-message *ngIf="submitted && f.smtpHost.errors" severity="error"
+                                    text="Campo requerido"></p-message>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label htmlFor="tipoDocumento">Tipo de documentos: </label>
+                                <input pInputText id="tipoDocumento" type="text" formControlName="tipoDocumento"
+                                    [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.tipoDocumento.errors }" />
+                                <p-message *ngIf="submitted && f.tipoDocumento.errors" severity="error"
+                                    text="Campo requerido"></p-message>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label htmlFor="tamanioDocumento">Tamaño de documentos(mb max): </label>
+                                <input pInputText id="tamanioDocumento" type="text" formControlName="tamanioDocumento"
+                                    [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.tamanioDocumento.errors }" />
+                                <p-message *ngIf="submitted && f.tamanioDocumento.errors" severity="error"
+                                    text="Campo requerido"></p-message>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label htmlFor="limiteDocumento">Cant. Documentos a cargar: </label>
+                                <input pInputText id="limiteDocumento" type="text" formControlName="limiteDocumento"
+                                    [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.limiteDocumento.errors }" />
+                                <p-message *ngIf="submitted && f.limiteDocumento.errors" severity="error"
+                                    text="Campo requerido"></p-message>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label htmlFor="tipoImagen">Tipo de imágenes: </label>
+                                <input pInputText id="tipoImagen" type="text" formControlName="tipoImagen"
+                                    [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.tipoImagen.errors }" />
+                                <p-message *ngIf="submitted && f.tipoImagen.errors" severity="error"
+                                    text="Campo requerido"></p-message>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label htmlFor="tamanioImagen">Tamaño de imagen(mb max): </label>
+                                <input pInputText id="tamanioImagen" type="text" formControlName="tamanioImagen"
+                                    [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.tamanioImagen.errors }" />
+                                <p-message *ngIf="submitted && f.tamanioImagen.errors" severity="error"
+                                    text="Campo requerido"></p-message>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label htmlFor="limiteImagen">Cant.  Imagen a cargar: </label>
+                                <input pInputText id="limiteImagen" type="text" formControlName="limiteImagen"
+                                    [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.limiteImagen.errors }" />
+                                <div class="col">
+                                    <p-message *ngIf="submitted && f.limiteImagen.errors" severity="error"
+                                        text="Campo requerido"></p-message>
+                                </div>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label htmlFor="rutaLogo">Ruta de logo: </label>
+                                <input pInputText id="rutaLogo" type="text" formControlName="rutaLogo"
+                                    [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.rutaLogo.errors }" />
+                                <div class="col">
+                                    <p-message *ngIf="submitted && f.rutaLogo.errors" severity="error"
+                                        text="Campo requerido"></p-message>
+                                </div>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label htmlFor="rutaLogoRelativo">¿Es ruta relativa? </label>
+                                <div class="grid">
+                                    <div class="col-12 md:col-4">
+                                        <div class="field-radiobutton">
+                                            <p-radioButton name="rutaLogoRelativo" value="1" label="Si" id="si"
+                                                formControlName="rutaLogoRelativo"></p-radioButton>
+                                        </div>
+                                    </div>
+                                    <div class="col-12 md:col-4">
+                                        <div class="field-radiobutton">
+                                            <p-radioButton name="rutaLogoRelativo" value="0" label="No" id="no"
+                                                formControlName="rutaLogoRelativo"></p-radioButton>
+                                        </div>
+                                    </div>
+                                </div>
+                                <p-message severity="error" *ngIf="submitted && f.rutaLogoRelativo.errors"
+                                    text="Campo requerido"></p-message>
+                            </div>
+                            <div class="field col-12 md:col-4">
+                                <label htmlFor="limiteFila">Cant. Registros de una grilla: </label>
+                                <p-dropdown id="limiteFila" [options]="optionsPaginated"  
+                                    formControlName="limiteFila"
+                                    [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.limiteFila.errors }"></p-dropdown>
+                                <p-message *ngIf="submitted && f.limiteFila.errors" severity="error"
+                                    text="Campo requerido"></p-message>
+                            </div>
+                            <div class="field col-12 md:col-6">
+                                <label htmlFor="webServicioSeguridad">URL Servicio de seguridad: </label>
+                                <input pInputText id="webServicioSeguridad" type="text"
+                                    formControlName="webServicioSeguridad"
+                                    [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.webServicioSeguridad.errors }" />
+                                <p-message *ngIf="submitted && f.webServicioSeguridad.errors" severity="error"
+                                    text="Campo requerido"></p-message>
+                            </div>
+                            <div class="field col-12 md:col-6">
+                                <label htmlFor="webServicioPide">URL Servicio PIDE: </label>
+                                <input pInputText id="webServicioPide" type="text" formControlName="webServicioPide"
+                                    [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.webServicioPide.errors }" />
+                                <p-message *ngIf="submitted && f.webServicioPide.errors" severity="error"
+                                    text="Campo requerido"></p-message>
+                            </div>
+                            <div class="field col-12 md:col-6">
+                                <label htmlFor="ldapUrl">URL Directorio activo - LDAP: </label>
+                                <input pInputText id="ldapUrl" type="text" formControlName="ldapUrl"
+                                    [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.ldapUrl.errors }" />
+                                <p-message *ngIf="submitted && f.ldapUrl.errors" severity="error"
+                                    text="Campo requerido"></p-message>
+                            </div>
+                            <div class="field col-12 md:col-6">
+                                <label htmlFor="ldapDominio">Dominio LDAP: </label>
+                                <input pInputText id="ldapDominio" type="text" formControlName="ldapDominio"
+                                    [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.ldapDominio.errors }" />
+                                <p-message *ngIf="submitted && f.ldapDominio.errors" severity="error"
+                                    text="Campo requerido"></p-message>
+                            </div>
+                        </div>
+                        <div class="flex justify-content-center flex-wrap"     *ngIf="frmConfiguracion.enabled">
+                            <div class="flex align-items-center justify-content-center">
+                                <button pButton pRipple type="button" label="Guardar" class="p-button-rounded mr-3"
+                                    icon="pi pi-save" iconPos="left" (click)="update()"></button>
+                            </div>
+                            <div class="flex align-items-center justify-content-center">
+                                <button pButton pRipple type="button" label="Cancelar" class="p-button-outlined p-button-rounded"
+                                    icon="pi pi-ban" (click)="cancel()" iconPos="left"></button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+    
+        </div>
+    </div>
+</div>
+<p-toast key="toast" position="top-right" ></p-toast>

@@ -1,0 +1,513 @@
+<div class="col-12 field grid p-fluid" style="width:100%">
+    <form autocomplete="off" [formGroup]="infoInstPubForm" (ngSubmit)="this.infoInstPubForm.valid && save()" #f="ngForm">
+        <div class="col-12 md:col-12 sm:col-12 field grid p-fluid">
+            <p class="inf-tit pl-6">Datos Generales de la Institución</p>
+        </div>
+        <div class="col-12">
+            <div class="field grid p-fluid">
+                <div class="col-12 card">
+                    <div class="field grid p-fluid form-space">
+                        <div class="col-12 md:col-12 sm:col-12">
+                            <div class="col-12 field grid p-fluid mb-0">
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                   <label htmlFor="tipoDocumentoId"> <h5> Representante: </h5> </label>
+                                </div>
+                            </div>
+                        </div>
+ 
+                        <div class="col-12 md:col-12 sm:col-12">
+                            <div class="col-12 field grid p-fluid mb-0">
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                   <label htmlFor="tipoDocumentoId">Tipo de <br> Documento:* </label>
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end">
+                                    <p-dropdown formControlName="tipoDocumentoId" [options]="tiposDoc" placeholder="Seleccionar" optionLabel="nombre" (onChange)="selectTypeDocument($event)" [ngClass]="f.submitted && invalidField('tipoDocumentoId') ? 'input_err' : ''"></p-dropdown>
+                                </div>
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                    <label htmlFor="numeroDocumento">Nro. de <br> Documento:*</label>
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end">
+                                    <input pInputText id="numeroDocumento" maxlength="{{maxLentgh}}" (keydown)="onKeyNumeroDocumento($event)" type="text" formControlName="numeroDocumento" placeholder="Ingresar" [ngClass]="f.submitted && invalidField('numeroDocumento') ? 'input_err' : ''"/>              
+                                </div>
+                                <div class="col-12 md:col-2 sm:col-12 field grid align-content-end" [ngClass]="{'deshabilitado': disabledButtons }">
+                                    <button pButton pRipple [disabled]="esPide" (click)="buscarPide()" type="button" label="Buscar" icon="pi pi-search" iconPos="left" class="p-button-primary p-button-rounded ml-3" ></button>     
+                                </div>
+                                
+                            </div> 
+                        </div>
+
+                        <div class="col-12 md:col-12 sm:col-12">
+                            <div class="col-12 field grid p-fluid mb-0">
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end">
+                                    <div class="col" *ngIf="f.submitted && tipoDocumentoId.invalid">
+                                   <p-message severity="error" text="El campo es requerido"></p-message>
+                                   </div>
+                                </div>
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end">
+                                    <div class="col" *ngIf="f.submitted && numeroDocumento.invalid">
+                                   <p-message severity="error" text="Campo requerido / Máximo 8 caracteres"></p-message>
+                                </div>
+                                </div>
+                                <div class="col-12 md:col-2 sm:col-12 field grid align-content-end" [ngClass]="{'deshabilitado': disabledButtons }">
+                                </div>
+                                
+                            </div> 
+                        </div>
+
+                        <div class="col-12 md:col-12 sm:col-12">
+                            <div class="col-12 field grid p-fluid mb-0" [ngClass]="{'deshabilitado': deshabilitado }">
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                   <label htmlFor="primerApellido">Primer <br> Apellido:*</label>
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end" >
+                                    <input pInputText id="primerApellido" maxlength="40" type="text" formControlName="primerApellido" placeholder="Ingresar" [ngClass]="f.submitted && invalidField('primerApellido') ? 'input_err' : ''"/>
+                                </div>
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                    <label htmlFor="segundoApellido">Segundo <br> Apellido:*</label>
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end">
+                                    <input pInputText id="segundoApellido" type="text" maxlength="40" formControlName="segundoApellido" placeholder="Ingresar" [ngClass]="f.submitted && invalidField('segundoApellido') ? 'input_err' : ''"/>              
+                                </div>
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                    <label htmlFor="nombres">Nombres:*</label>    
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end" >
+                                    <input pInputText id="nombres" type="text" maxlength="40" formControlName="nombres" placeholder="Ingresar" [ngClass]="f.submitted && invalidField('nombres') ? 'input_err' : ''"/>              
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 md:col-12 sm:col-12">
+                            <div class="col-12 field grid p-fluid mb-0" [ngClass]="{'deshabilitado': deshabilitado }">
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">    
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end" >
+                                    <div class="col" *ngIf="f.submitted && primerApellido.invalid">
+                                        <p-message severity="error" text="Campo requerido / Máximo 40 caracteres"></p-message>
+                                     </div> </div>
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end">
+                                    <div class="col" *ngIf="f.submitted && segundoApellido.invalid">
+                                        <p-message severity="error" text="Campo requerido / Máximo 40 caracteres"></p-message>
+                                     </div> </div>
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end" >
+                                    <div class="col" *ngIf="f.submitted && nombres.invalid">
+                                        <p-message severity="error" text="Campo requerido / Máximo 40 caracteres"></p-message>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 md:col-12 sm:col-12">
+                            <div class="col-12 field grid p-fluid mb-0">
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                   <label htmlFor="correoElectronico"> Email:*</label>
+                                </div>
+
+                                <div class="col-12 md:col-7 sm:col-12 field grid align-content-end">
+                                    <input pInputText id="correoElectronico" maxlength="80" type="text" formControlName="correoElectronico" placeholder="Ingresar" [ngClass]="f.submitted && invalidField('correoElectronico') ? 'input_err' : ''"/>
+                                </div>
+                                
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                    <label htmlFor="telefono">Nro. <br> Teléfono:*</label>    
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end">
+                                    <input pInputText id="telefono" type="text" maxlength="13" formControlName="telefono" (keydown)="onKeySoloNumeros($event)" placeholder="Ingresar" [ngClass]="f.submitted && invalidField('telefono') ? 'input_err' : ''"/>              
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 md:col-12 sm:col-12">
+                            <div class="col-12 field grid p-fluid mb-0">
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">                                 
+                                </div>
+
+                                <div class="col-12 md:col-7 sm:col-12 field grid align-content-end">
+                                     <div class="col" *ngIf="f.submitted && correoElectronico.invalid">
+                                        <p-message severity="error" text="Campo requerido / Máximo 80 caracteres"></p-message>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end">
+                                    <div class="col" *ngIf="f.submitted && telefono.invalid">
+                                        <p-message severity="error" text="Campo requerido / Máximo 13 caracteres"></p-message>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+ 
+                        <div class="col-12 md:col-12 sm:col-12">
+                            <div class="col-12 field grid p-fluid mb-0">
+                                <div class="col-12 md:col-3 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                   <label htmlFor="tipoDocumentoId"> <h5> Centro de Arbitraje: </h5> </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 md:col-12 sm:col-12">
+                            <div class="col-12 field grid p-fluid mb-0">
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                   <label htmlFor="ruc">RUC:*</label>
+                                </div>
+
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end">
+                                    <input pInputText id="ruc" (keydown)="onKeySoloNumeros($event)" maxlength="11" type="text" formControlName="ruc" placeholder="Ingresar" [ngClass]="f.submitted && invalidField('ruc') ? 'input_err' : ''"/>
+                                </div>
+                                
+                                <div class="col-12 md:col-2 mb-3 pr-5 ml-3 sm:col-12 field grid align-content-end">
+                                     <button [disabled]="disabledButtons" pButton pRipple (click)="buscarPideSunat()" type="button" label="Buscar" icon="pi pi-search" iconPos="left" class="p-button-rounded"></button>
+                                </div>
+
+                                <div class="col-12 md:col-2 mb-3 pr-5 ml-3 sm:col-12 field grid align-content-end">
+                                    <button [disabled]="disabledButtons" pButton pRipple type="button" (click)="emptyFieldsPersonLegal()" label="Limpiar" icon="pi pi-trash" iconPos="left" class="p-button-outlined p-button-rounded mr-0"></button>     
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 md:col-12 sm:col-12">
+                            <div class="col-12 field grid p-fluid mb-0">
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                   
+                                </div>
+
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end">
+                                    <div class="col" *ngIf="f.submitted && ruc.invalid">
+                                        <p-message severity="error" text="Campo requerido / Máximo 13 caracteres"></p-message>
+                                    </div>
+                                 </div>
+                                
+                                <div class="col-12 md:col-2 mb-3 pr-5 ml-3 sm:col-12 field grid align-content-end">
+                                </div>
+
+                                <div class="col-12 md:col-2 mb-3 pr-5 ml-3 sm:col-12 field grid align-content-end">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 md:col-12 sm:col-12">
+                            <div class="col-12 field grid p-fluid mb-0">
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                   <label htmlFor="razonSocial">Razón Social:*</label>
+                                </div>
+
+                                <div class="col-12 md:col-7 sm:col-12 field grid align-content-end">
+                                    <input pInputText id="razonSocial" maxlength="120" type="text" formControlName="razonSocial" placeholder="Ingresar" [ngClass]="f.submitted && invalidField('razonSocial') ? 'input_err' : ''"/>
+                                </div>
+                                
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                      
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 md:col-12 sm:col-12">
+                            <div class="col-12 field grid p-fluid mb-0">
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">                           
+                                </div>
+
+                                <div class="col-12 md:col-7 sm:col-12 field grid align-content-end">
+                                    <div class="col" *ngIf="f.submitted && razonSocial.invalid">
+                                        <p-message severity="error" text="Campo requerido / Máximo 120 caracteres"></p-message>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                      
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 md:col-12 sm:col-12">
+                            <div class="col-12 field grid p-fluid mb-0">
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                   <label htmlFor="direccion">Dirección:*</label>
+                                </div>
+
+                                <div class="col-12 md:col-7 sm:col-12 field grid align-content-end">
+                                    <input pInputText id="direccion" maxlength="250" type="text" formControlName="direccion" placeholder="Ingresar" [ngClass]="f.submitted && invalidField('direccion') ? 'input_err' : ''"/>
+                                </div>
+                                
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                    <label htmlFor="telefonoInstitucion">Nro <br> Teléfono:</label>    
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end">
+                                    <input pInputText id="telefonoInstitucion" (keydown)="onKeySoloNumeros($event)" maxlength="12" type="text" formControlName="telefonoInstitucion" placeholder="Ingresar" [ngClass]="f.submitted && invalidField('telefonoInstitucion') ? 'input_err' : ''"/>              
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 md:col-12 sm:col-12">
+                            <div class="col-12 field grid p-fluid mb-0">
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                </div>
+
+                                <div class="col-12 md:col-7 sm:col-12 field grid align-content-end">
+                                    <div class="col" *ngIf="f.submitted && direccion.invalid">
+                                        <p-message severity="error" text="Campo requerido / Máximo 250 caracteres"></p-message>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end">
+                                    <div class="col" *ngIf="f.submitted && telefonoInstitucion.invalid">
+                                        <p-message severity="error" text="Campo requerido / Máximo 12 caracteres"></p-message>
+                                    </div>  
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 md:col-12 sm:col-12">
+                            <div class="col-12 field grid p-fluid mb-0">
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                   <label htmlFor="primerApellido">Departamento:*</label>
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end">
+                                    <p-dropdown id="departamento" formControlName="departamento" [filter]="true" [ngClass]="f.submitted && invalidField('departamento') ? 'input_err' : ''" [options]="departamentos" optionLabel="nombreDpto" placeholder="Seleccionar" [showClear]="true" 
+                                    (onChange)="listarProvincia($event)"></p-dropdown>
+                                </div>
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                    <label htmlFor="provincia"> Provincia:*</label>
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end">
+                                    <p-dropdown id="provincia" (onChange)="listarDistrito($event)"  [filter]="true" [ngClass]="f.submitted && invalidField('provincia') ? 'input_err' : ''" formControlName="provincia" [options]="provincias" optionLabel="nombreProv" placeholder="Seleccionar" [showClear]="true"></p-dropdown>
+                                </div>
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                    <label htmlFor="ubigeoId">Distrito:*</label>    
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end">
+                                    <p-dropdown id="ubigeoId" formControlName="ubigeoId" [options]="distritos"  [filter]="true" [ngClass]="f.submitted && invalidField('ubigeoId') ? 'input_err' : ''"  optionLabel="nombreDist" placeholder="Seleccionar" [showClear]="true"></p-dropdown>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-12 md:col-12 sm:col-12">
+                            <div class="col-12 field grid p-fluid mb-0">
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end">
+                                    <div class="col" *ngIf="f.submitted && departamento.invalid">
+                                        <p-message severity="error" text="Campo requerido"></p-message>
+                                    </div>  
+                                </div>
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end">
+                                    <div class="col" *ngIf="f.submitted && provincia.invalid">
+                                        <p-message severity="error" text="Campo requerido"></p-message>
+                                    </div>   </div>
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                </div>
+                                <div class="col-12 md:col-3 sm:col-12 field grid align-content-end">
+                                    <div class="col" *ngIf="f.submitted && ubigeoId.invalid">
+                                        <p-message severity="error" text="Campo requerido"></p-message>
+                                    </div>  </div>
+                            </div>
+                        </div>
+               
+                        <div class="col-12 md:col-12 sm:col-12">
+                            <div class="col-12 field grid p-fluid mb-0">
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                   <label htmlFor="paginaWeb">Página Web:*</label>
+                                </div>
+
+                                <div class="col-12 md:col-5 sm:col-12 field grid align-content-end">
+                                    <input  pInputText id="paginaWeb" type="text" maxlength="150" formControlName="paginaWeb" placeholder="Ingresar" [ngClass]="f.submitted && invalidField('paginaWeb') ? 'input_err' : ''"/>
+                                </div>
+                                
+                                <div class="col-12 md:col-1 sm:col-12 field grid align-content-end">
+                                   <label htmlFor="correoInstitution">Email:*</label>
+                                </div>
+
+                                <div class="col-12 md:col-5 sm:col-12 field grid align-content-end">
+                                    <input pInputText id="correoInstitution" maxlength="40" type="text" formControlName="correoInstitution" placeholder="Ingresar" [ngClass]="f.submitted && invalidField('correoInstitution') ? 'input_err' : ''"/>                        
+                                </div>
+                               
+                            </div>
+                        </div>
+
+                        <div class="col-12 md:col-12 sm:col-12">
+                            <div class="col-12 field grid p-fluid mb-0">
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                </div>
+
+                                <div class="col-12 md:col-5 sm:col-12 field grid align-content-end">
+                                    <div class="col" *ngIf="f.submitted && paginaWeb.invalid">
+                                        <p-message severity="error" text="Campo requerido / Máximo 150 caracteres"></p-message>
+                                    </div>
+                                </div>
+                                
+                                <div class="col-12 md:col-1 sm:col-12 field grid align-content-end">        
+                                </div>
+
+                                <div class="col-12 md:col-5 sm:col-12 field grid align-content-end">                                 
+                                    <div class="col" *ngIf="f.submitted && correoInstitution.invalid">
+                                        <p-message severity="error" text="Campo requerido / Máximo 40 caracteres"></p-message>
+                                    </div>
+                                </div>
+                               
+                            </div>
+                        </div>
+
+                        <div class="col-12 md:col-12 sm:col-12" *ngIf="typeTransaction == 'view'">
+                            <div class="col-12 field grid p-fluid mb-0">
+                                <div class="col-12 md:col-1 mb-3 pr-5 mr-3 sm:col-12 field grid align-content-end">
+                                   <label htmlFor="paginaWeb">Usuario de <br> Creación:*</label>
+                                </div>
+
+                                <div class="col-12 md:col-5 sm:col-12 field grid align-content-end">
+                                    <input pInputText id="paginaWeb" type="text" formControlName="usuarioCreacion" placeholder="Ingresar" [ngClass]="f.submitted && invalidField('paginaWeb') ? 'input_err' : ''"/>
+                                </div>
+                                
+                                <div class="col-12 md:col-1 sm:col-12 field grid align-content-end">
+                                   <label htmlFor="paginaWeb">Fecha de <br> Creación:*</label>
+                                </div>
+
+                                <div class="col-12 md:col-5 sm:col-12 field grid align-content-end">
+                                    <input pInputText id="fechaCreacion" type="text" formControlName="fechaCreacion" placeholder="Ingresar" [ngClass]="f.submitted && invalidField('correoInstitution') ? 'input_err' : ''"/>                        
+                                </div>
+                               
+                            </div>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-12 md:col-12 sm:col-12 field grid p-fluid">
+            <p class="inf-tit pl-6">Horarios de Atención de la Institución</p>
+        </div>
+        <div class="col-12">
+            <div class="field grid p-fluid">
+                <div class="col-12 card">
+                    <div class="col-12 field grid p-fluid" style="width:100% !important;">
+                           <div class="field grid p-fluid">
+                                <div class="col-12 md:col-6 sm:col-12 mb-3 pr-5">
+                                    <div class="col-12 field grid p-fluid">
+                                        <div class="col-4 grid p-fluid justify-content-end">
+                                            <label for="lun_vie" class="col-fixed time-label mr-3">Lunes a Viernes:</label>
+                                        </div>
+                                        
+                                        <div class="col-4">
+                                            <span class="p-input-icon-right">
+                                                <em class="pi pi-clock"></em>
+                                                <p-calendar id="horarioLvIni" formControlName="horarioLvIni" [touchUI]="true" [timeOnly]="true"  (onSelect)="onSelectHourIni()"
+                                                 [hourFormat]="12" inputId="horaLVIni" [readonlyInput]="true" placeholder="Hora Inicio"></p-calendar>
+                                            </span>
+                                        </div>
+
+                                        <div class="col-4">
+                                            <span class="p-input-icon-right">
+                                                <em class="pi pi-clock"></em>
+                                                <p-calendar id="horarioLvFin" (onSelect)="onSelectHourFin()" formControlName="horarioLvFin" [touchUI]="true" [timeOnly]="true" [hourFormat]="12" inputId="horaLVFin" [readonlyInput]="true" placeholder="Hora Fin"></p-calendar>
+                                            </span>
+                                        </div>
+                                         
+                                    </div>
+                                </div>
+                                <div class="col-12 md:col-6 sm:col-12 mb-3">
+                                    <div class="col-12 field grid p-fluid">
+                                        <div class="col-4 grid p-fluid justify-content-end">
+                                            <label for="sabado" class="col-fixed time-label mr-3">Sábado:</label>
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="p-input-icon-right">
+                                                <em class="pi pi-clock"></em>
+                                                <p-calendar id="horarioSabIni" (onSelect)="onSelectHourSabIni()" formControlName="horarioSabIni" [touchUI]="true" [timeOnly]="true" [hourFormat]="12" inputId="horaSabIni" [readonlyInput]="true" placeholder="Hora Inicio"></p-calendar>
+                                            </span>
+                                        </div>
+                                        <div class="col-4">
+                                            <span class="p-input-icon-right">
+                                                <em class="pi pi-clock"></em>
+                                                <p-calendar id="horarioSabFin" (onSelect)="onSelectHourSabFin()" formControlName="horarioSabFin" [touchUI]="true" [timeOnly]="true" [hourFormat]="12" inputId="horaSabFin" [readonlyInput]="true" placeholder="Hora Fin"></p-calendar>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-12 md:col-6 sm:col-12 mb-3 pr-5">
+                                    <div class="col-12 field grid p-fluid">
+                                        <div class="col-4 grid p-fluid justify-content-end">
+                                            <label for="lun_vie" class="col-fixed time-label mr-3"></label>
+                                        </div>
+                                        
+                                        <div class="col-4">
+                                            <div class="col" *ngIf="esHorarioLVInicioEsmayor">
+                                                <p-message severity="error" text="No debe ser mayor a la hora fin"></p-message>
+                                            </div>
+                                        </div>
+    
+                                        <div class="col-4">
+                                            <div class="col" *ngIf="esHorarioLVFinEsmenor">
+                                                <p-message severity="error" text="No debe ser menor a la hora inicio"></p-message>
+                                            </div>
+                                        </div>
+                                         
+                                    </div>
+                                </div>
+
+                                <div class="col-12 md:col-6 sm:col-12 mb-3">
+                                    <div class="col-12 field grid p-fluid">
+                                        <div class="col-4 grid p-fluid justify-content-end">
+                                            <label for="sabado" class="col-fixed time-label mr-3"></label>
+                                        </div>
+                                        <div class="col-4">
+                                            <div class="col" *ngIf="esHorarioSabInicioEsmayor">
+                                                <p-message severity="error" text="No debe ser mayor a la hora fin"></p-message>
+                                            </div>
+                                        </div>
+    
+                                        <div class="col-4">
+                                            <div class="col" *ngIf="esHorarioSabFinEsmenor">
+                                                <p-message severity="error" text="No debe ser menor a la hora inicio"></p-message>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    </div>
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="col-12 pt-5" *ngIf="!disabledButtons">
+            <div class="field grid p-fluid justify-content-center">
+                <div class="col-2 mr-3">
+                    <button pButton pRipple type="submit" label="Guardar" icon="pi pi-save" iconPos="left" class="p-button-rounded mr-2"></button>
+                </div>
+                <div class="col-2 ml-3">
+                    <button pButton pRipple type="button" label="Cancelar" icon="pi pi-ban" iconPos="left" class="p-button-outlined p-button-rounded ml-2" (click)="goBack()"></button>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+
+<p-toast key="toast" [baseZIndex]="99999"></p-toast>
+
+<p-toast key="warn" [baseZIndex]="99999">
+    <ng-template let-message pTemplate="message">
+        <div class="flex flex-column" style="flex: 1">
+            <div class="text-center">
+                <em class="pi pi-exclamation-triangle" style="font-size: 3rem"></em>
+                <h5>{{message.summary}}</h5>
+                <ul>
+                    <em *ngFor="let item of message.detail">{{item}}</em>
+                </ul>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>

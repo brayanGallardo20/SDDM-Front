@@ -1,0 +1,408 @@
+$gutter: .5rem; //for primeflex grid system
+
+@import "../node_modules/primeng/resources/primeng.min.css";
+@import "../node_modules/primeflex/primeflex.scss";
+@import "../node_modules/primeicons/primeicons.css";
+@import "../node_modules/prismjs/themes/prism-coy.css";
+@import "../node_modules/@fullcalendar/daygrid/main.min.css";
+@import "../node_modules/@fullcalendar/timegrid/main.min.css";
+@import "assets/demo/flags/flags.css";
+@import "assets/demo/documentation.scss";
+
+
+.p-button {
+    border-radius: 50px !important;
+    height: 40px !important;
+}
+
+/*.p-inputtext {
+    border-radius: 50px;
+}*/
+
+.p-error {
+    color: black;
+    background-color: #f38a8e;
+}
+
+.p-inline-message.p-inline-message-error {
+    background: #f8d7da;
+    border: solid #f5c6cb;
+    border-width: 0px;
+    color: #721c24;
+    margin-top: 10px !important;
+}
+
+.card {
+    background: #FFFFFF !important;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1) !important;
+    border-radius: 20px !important;
+}
+
+.p-paginator .p-paginator-current {
+    border: 0px !important;
+    color: #34363b !important;
+}
+
+.p-paginator .p-paginator-first, .p-paginator .p-paginator-prev, .p-paginator .p-paginator-next, .p-paginator .p-paginator-last {
+    border: 0px !important;
+    color: #34363b !important;
+}
+
+.p-paginator .p-paginator-first, .p-paginator .p-paginator-prev, .p-paginator .p-paginator-next, .p-paginator .p-paginator-last:hover {
+    border-radius: 50px !important;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page {
+    border: 0px !important;
+    color: #34363b !important;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page:hover {
+    border-radius: 50px !important;
+}
+
+.p-paginator .p-paginator-pages .p-paginator-page.p-highlight {
+    border-radius: 50px !important;
+    margin-right: 2px !important;
+    color: white !important;
+    background: #4597e8;
+    border-color: #4597e8;
+}
+
+.p-paginator .p-dropdown {
+    border-radius: 20px !important;
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight {
+    color: #ffffff !important;
+    background: #4597e8 !important;
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item.p-highlight span {
+    color: #ffffff !important;
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item:hover {
+    background: #4597e8 !important;
+}
+
+.p-dropdown-panel .p-dropdown-items .p-dropdown-item span:hover {
+    color: white !important;
+}
+
+.layout-topbar .layout-topbar-wrapper .layout-topbar-right .layout-topbar-actions > li > a i {
+    color: #4c566a !important;
+    font-size: 12px !important;
+}
+
+th {
+    border-top: 0px !important;
+    text-align: center !important;
+}
+
+td {
+    text-align: center !important;
+}
+
+input {
+    background: #FAFAFC !important;
+    border: 1px solid #DCDCDE !important;
+    border-radius: 10px !important;
+    height: 40px;
+}
+
+ .p-dropdown {
+    background: #FAFAFC !important;
+    border: 1px solid #DCDCDE !important;
+    border-radius: 10px !important;
+    height: 40px;
+} 
+
+.container {
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+}
+
+.p-button-label {
+    font-size: 1.1rem !important;
+}
+
+.p-datatable .p-datatable-thead > tr > th {
+    font-weight: 700 !important;
+    font-size: 16px !important;
+    line-height: 18px !important;
+    color: #26292E !important;
+}
+
+.bcrumb {
+    margin-top: 10px !important;
+    margin-bottom:40px !important;
+}
+
+.p-dialog-draggable .p-dialog-header {
+    border-top-left-radius: 20px !important;
+    border-top-right-radius: 20px !important;
+}
+
+.p-dialog .p-dialog-footer {
+    border-bottom-right-radius: 20px !important;
+    border-bottom-left-radius: 20px !important;
+    border-top: 0px !important;
+    padding-top: 0px !important;
+}
+
+.p-dialog .p-dialog-content {
+    padding-left: 3rem !important;
+    padding-right: 3rem !important;
+    padding-bottom: 0px !important;
+}
+
+.p-dialog .p-dialog-header .p-dialog-title {
+    font-weight: 400 !important;
+    font-size: 16px !important;
+    line-height: 18px !important;
+    padding-left: 20px !important;
+    color: #26292E !important;
+}
+
+.field > label {
+    font-weight: 500 !important; //Analizar si se puede hacer de otra forma porque está sobreescribiendo clases
+    font-size: 16px !important;
+    line-height: 18px !important;
+    color: #26292E !important;
+}
+
+.p-dialog {
+    border: 0px !important;
+}
+
+.p-inline-message .p-inline-message-text {
+    font-size: 0.9rem !important;
+}
+
+.header_sub {
+    font-weight: 700 !important;
+    font-size: 24px !important;
+    line-height: 23px !important;
+}
+
+.header_tit {
+    font-weight: 700 !important;
+    font-size: 24px !important;
+    line-height:  28px !important;
+    margin-bottom: 2px !important;
+}
+
+.p-calendar {
+    position: revert !important;
+}
+
+@media (max-width: 991px) {
+    .layout-wrapper .layout-topbar .layout-topbar-wrapper .layout-topbar-left .layout-topbar-logo-wrapper {
+        margin-left: 60px !important;
+    }
+}
+
+@media screen and (max-width: 576px) {
+    .layout-wrapper .layout-topbar .layout-topbar-wrapper .layout-topbar-left .layout-topbar-logo-wrapper {
+        margin-left: 0px !important;
+    }
+    .form-space {
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+    .form-space_time {
+        padding-top: 20px !important;
+        padding-bottom: 10px !important;
+        padding-left: 5px !important;
+        padding-right: 5px !important;
+    }
+}
+
+.p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-link {
+    padding: 1rem !important;
+    border-radius: 4px !important;
+    transition: box-shadow 0.15s !important;
+    user-select: none !important;
+    cursor: pointer !important;
+    font-family: 'Arial' !important;
+    font-style: normal !important;
+    font-weight: 400 !important;
+    font-size: 14px !important;
+    line-height: 16px !important;
+}
+
+.p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-link .p-menuitem-text {
+    color: #26292E !important;
+}
+
+.p-menubar {
+    background: linear-gradient(180deg, #EAE9E9 0%, #C4C4C4 100%) !important;
+}
+
+@media (min-width: 992px) {
+    .layout-wrapper.layout-horizontal .layout-sidebar .layout-menu-container {
+        padding-top: 0px !important;
+        padding-right: 0px !important;
+    }
+    .form-space {
+        padding-top: 20px !important;
+        padding-bottom: 20px !important;
+        padding-left: 40px !important;
+        padding-right: 40px !important;
+    }
+    .form-space_time {
+        padding-top: 20px !important;
+        padding-bottom: 10px !important;
+        padding-left: 50px !important;
+        padding-right: 50px !important;
+    }
+}
+
+.p-menubar .p-menubar-root-list > .p-menuitem > .p-menuitem-link:focus {
+    box-shadow: inset 0 0 0 0.15rem #88b4cc !important;
+}
+
+.p-menubar-root-list>.p-menuitem-active>p-menubarsub>.p-submenu-list {
+    display: block;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1) !important;
+    border-radius: 20px !important;
+    width: 280px !important;
+}
+
+.p-button .p-button-icon-left {
+    margin-left: 0.5rem !important;
+    margin-right: 1rem !important;
+  }
+
+.search_label {
+    font-family: 'Arial';
+    font-style: normal;
+    font-weight: 400;
+    font-size: 16px;
+    line-height: 18px;
+    color: #58595B;
+}
+
+.p-button-label {
+    font-size: 1.1rem !important;
+    margin-right: 0.5rem !important;
+}
+
+.p-input-icon-left>em, .p-input-icon-right>em {
+    position: absolute!important;
+    top: 50%!important;
+    margin-top: -0.5rem!important;
+  }
+  
+  .p-input-icon-right > em:last-of-type {
+    right: 0.75rem!important;
+    color: #495057!important;
+  }
+
+  .p-tabview-title {
+    font-family: 'Arial' !important;
+    font-style: normal !important;
+    font-weight: 700 !important;
+    font-size: 16px !important;
+    line-height: 125% !important;
+    display: flex !important;
+    align-items: center !important;
+    color: #5E5E5E !important;
+}
+
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link {
+    background: #ffffff !important;
+    border-top: none !important;
+    border-left: none !important;
+    border-right: none !important;
+    border-bottom: 1px solid #58595B !important;
+    color: #88B4CC !important;
+    text-decoration: underline !important;
+}
+
+.p-tabview .p-tabview-nav li {
+    margin-right: 0 !important;
+    border-bottom: 1px solid #58595B !important;
+}
+
+.p-tabview .p-tabview-nav {
+    background: transparent;
+    border-bottom: 1px solid #58595B !important;
+    border-width: 0 0 1px 0;
+}
+
+.p-tabview .p-tabview-nav li .p-tabview-nav-link {
+    border: solid !important;
+    border-width: 1px !important;
+    border-color: #ffffff #ffffff #58595B #ffffff !important;
+}
+
+.p-tabview .p-tabview-nav li.p-highlight .p-tabview-nav-link .p-tabview-title {
+    color: #88B4CC !important;
+}
+
+p-tabview {
+    width: 100% !important;
+}
+
+form {
+    width: 100% !important;
+}
+
+.input_err {
+    border: 1px red solid !important;
+}
+
+.p-datepicker.p-datepicker-timeonly .p-timepicker {
+    background: #FFFFFF !important;
+    box-shadow: 0px 0px 30px rgba(0, 0, 0, 0.1) !important;
+}
+
+.p-inputtext.ng-dirty.ng-invalid {
+    border-color: #dc3545 !important;
+}
+
+
+::-webkit-input-placeholder {
+    text-transform: initial!important;
+ }
+ 
+ :-moz-placeholder { 
+    text-transform: initial!important;
+ }
+ 
+ ::-moz-placeholder {  
+    text-transform: initial!important;
+ }
+ 
+ :-ms-input-placeholder { 
+    text-transform: initial!important;
+ }
+
+
+ ::-webkit-textarea-placeholder {
+    text-transform: initial!important;
+ }
+  
+ ::-moz-placeholder {  
+    text-transform: initial!important;
+ }
+ 
+ :-ms-textarea-placeholder { 
+    text-transform: initial!important;
+ }
+
+
+ p-dropdown.ng-dirty.ng-invalid > .p-dropdown {
+    border-color: #dc3545 !important;
+}
+
+.p-multiselect{
+    border-top-right-radius: 4px;
+    border-bottom-right-radius: 4px;
+}
+
+.p-multiselect .p-multiselect-label.p-placeholder {
+    height: 38px;
+}

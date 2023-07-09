@@ -1,0 +1,99 @@
+<div class="grid">
+    <div class="col-12 md:col-12">
+        <div class="p-fluid col-12">
+            <div class="col-12 bcrumb" style="margin-bottom:20px !important;">
+                <p><strong>Gestión de Históricos</strong></p>
+            </div>
+            <div class="formgrid grid">
+                <div class="field col-12 xl:col-2 lg:col-6">
+                    <label for="table" class="block ml-3 search_label">Tabla:</label>
+                    <p-dropdown id="table" [options]="listadoTablas" [(ngModel)]="tablaSeleccionada" optionLabel="nombre"
+                        [filter]="true" filterBy="nombre" placeholder="Seleccionar">
+                    </p-dropdown>
+                </div>
+                <div class="field col-12 xl:col-2 lg:col-6">
+                    <label for="tipo" class="block ml-3 search_label">Tipo de movimiento:</label>
+                    <p-dropdown id="tipo" [options]="listadoTipoAuditoria" [(ngModel)]="tipoAuditoriaSeleccionado"
+                        optionLabel="descripcion" placeholder="Seleccione Tipo de Movimiento">
+                    </p-dropdown>
+                </div>
+                <div class="field col-12 xl:col-2 lg:col-6">
+                    <label for="usuario" class="block ml-3 search_label">Usuario:</label>
+                    <input id="usuario" [(ngModel)]="usuario" type="text" pInputText (keyup.enter)="buscar(null,2)"
+                        placeholder="Usuario" (ngModelChange)="onUsuarioSearchChange()">
+                </div>
+                <div class="field col-12 xl:col-2 lg:col-6">
+                    <label for="f_ini" class="block ml-3 search_label">Fecha Inicio:</label>
+                    <span class="p-input-icon-right">
+                        <em class="pi  pi-calendar"></em>
+                        <p-calendar id="f_ini" [(ngModel)]="fechaInicio" dateFormat="dd/mm/yy"
+                            placeholder="Fecha Inicio"></p-calendar>
+                    </span>
+                </div>
+                <div class="field col-12 xl:col-2 lg:col-6">
+                    <label for="f_fin" class="block ml-3 search_label">Fecha Fin:</label>
+                    <span class="p-input-icon-right">
+                        <em class="pi  pi-calendar"></em>
+                        <p-calendar id="f_fin" [(ngModel)]="fechaFin" dateFormat="dd/mm/yy"
+                        placeholder="Fecha Fin"></p-calendar>
+                    </span>
+                </div>
+
+                <div class="field col-12 xl:col-2 lg:col-6 " style="padding-top:23px !important;">
+                    <div class="field grid">
+                        <div class="col-6" >
+                            <button class="p-button-rounded  mr-1" (click)="buscar(null,2)" pButton pRipple
+                                label="Buscar" icon="pi pi-search"></button>
+                        </div>
+                        <div class="col-6" >
+                            <button
+                                class="p-element p-ripple p-button-outlined mb-2 p-button p-component"
+                                (click)="limpiar()" pButton pRipple label="Limpiar" icon="pi pi-trash"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="grid card">
+                <div class="col-12 md:col-12">
+                    <p-table [value]="respuesta.data " [lazy]="true" (onLazyLoad)="cargarAuditoria($event)" dataKey="id"
+                        [rowHover]="true" [resizableColumns]="true" [responsive]="true" [scrollable]="true"
+                        [rows]="cantidadPorPagina" [paginator]="true" [showCurrentPageReport]="true"
+                        currentPageReportTemplate="Mostrando {first} hasta {last} de {totalRecords} registros"
+                        [rowsPerPageOptions]="optionsPaginated" [loading]="loading" [totalRecords]="respuesta.totalRegistros">
+                        <ng-template pTemplate="header">
+                            <tr>
+                                <th scope="col" pResizableColumn>N° </th>
+                                <th scope="col" pResizableColumn>NOMBRE DE LA TABLA </th>
+                                <th scope="col" pResizableColumn>TIPO DE MOVIMIENTO </th>
+                                <th scope="col" pResizableColumn>USUARIO</th>
+                                <th scope="col" pResizableColumn>FECHA Y HORA</th>
+                                <th scope="col">ACCIONES</th> 
+                            </tr> 
+                        </ng-template>
+                        <ng-template pTemplate="body" let-auditoria let-rowIndex="rowIndex">
+                            <tr>
+                                <td>{{rowIndex+1}}</td>
+                                <td>{{auditoria.tabla}}</td>
+                                <td>{{auditoria.auditTipoDesc}}</td>
+                                <td>{{auditoria.auditUsuario}}</td>
+                                <td>{{auditoria.auditFechaFormat | date:'dd/MM/yyyy HH:mm'}}</td>
+                                <td> <button pButton pRipple type="button" title="Ver"
+                                        (click)="mostrarDetalle(auditoria)" icon="pi pi-eye"
+                                        class="p-button-rounded p-button-text p-button-secondary"></button></td>
+                            </tr>
+                        </ng-template>
+
+                        <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                                <td>
+                                    No se encontraron registros
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast key="toast" position="top-center"></p-toast>

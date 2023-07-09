@@ -1,0 +1,364 @@
+<div class="grid mt-2 container">
+  <div class="col-12">
+    <div class="field grid p-fluid">
+        <div class="col-12 bcrumb">
+            <p><strong>Gestión de Tabla Párametros</strong> - Párametros</p>
+        </div>
+      <div class="col-12">
+        <div class="field grid p-fluid">
+          <div class="field grid">
+            <div class="field grid col-12 md:col-4 sm:col-12 mr-3">
+              <label for="nameSearch" class="block ml-3 search_label"
+                >Nombre de Parámetro:</label
+              >
+              <input
+                id="nameSearch"
+                name="nameSearch"
+                style="text-transform:uppercase;"
+                [(ngModel)]="nameSearch"
+                type="text"
+                pInputText
+                placeholder="Ingresar"
+              />
+            </div>
+            <div
+              class="field grid col-12 md:col-3 sm:col-12 align-content-end justify-content-start mr-2"
+            >
+              <button
+                pButton
+                pRipple
+                type="button"
+                label="Buscar"
+                icon="pi pi-search"
+                iconPos="left"
+                class="p-button-rounded"
+                (click)="search(null,2)"
+              ></button>
+            </div>
+            <div class="field grid col-12 md:col-3 sm:col-12 align-content-end">
+              <button
+                pButton
+                pRipple
+                type="button"
+                label="Limpiar"
+                icon="pi pi-trash"
+                iconPos="left"
+                class="p-button-outlined p-button-rounded"
+                (click)="clean()"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="col-12">
+        <div class="card">
+          <p-table
+            #dt2
+            [value]="parameter"
+            dataKey="id"
+            [rows]="cantidadPorPagina"
+            [showCurrentPageReport]="true"
+            [rowsPerPageOptions]="optionsPaginated"
+            [loading]="loading"
+            [paginator]="true"
+            currentPageReportTemplate="Mostrando {first} a {last} de {totalRecords} registros"
+            [globalFilterFields]="[
+              'tipoParametroId',
+              'descripcion',
+              'auditFechaCreacion'
+            ]"
+            [tableStyle]="{ 'min-width': '75rem' }"
+          >
+            <ng-template pTemplate="header">
+              <tr>
+                <th scope="col" style="width: 4%">Nº</th>
+                <th scope="col" style="width: 24%">NOMBRE DE PARÁMETRO</th>
+                <th scope="col" style="width: 24%">VALOR</th>
+                <th scope="col" style="width: 24%">DETALLE</th>
+                <th scope="col" style="width: 14%">ACCIONES</th>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-parameter let-rowIndex="rowIndex">
+              <tr>
+                <td>
+                  {{ rowIndex + 1 }}
+                </td>
+                <td>
+                  {{ parameter.concepto | uppercase }}
+                </td>
+                <td>
+                  {{ parameter.valor | uppercase }}
+                </td>
+                <td>
+                  {{ parameter.detalle | uppercase }}
+                </td>
+                <td>
+                  <div class="flex-center">
+                    <a
+                      pButton
+                      pRipple
+                      icon="pi pi-pencil"
+                      class="mr-2 opt-btn opt-btn-success"
+                      pTooltip="Editar"
+                      (click)="editParameter(parameter)"
+                    ></a>
+                    <a
+                      pButton
+                      pRipple
+                      icon="pi pi-eye"
+                      class="mr-2 opt-btn opt-btn-search"
+                      (click)="seeParameter(parameter)"
+                    ></a>
+                  </div>
+                </td>
+              </tr>
+            </ng-template>
+            <ng-template pTemplate="emptymessage">
+              <tr>
+                <td colspan="6">No se encontraron resultados</td>
+              </tr>
+            </ng-template>
+          </p-table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<p-dialog
+  [(visible)]="parameterDialog"
+  [style]="{ width: '628px' }"
+  header="{{ title }}"
+  [modal]="true"
+  class="p-fluid"
+  [resizable]="false"
+>
+  <ng-template pTemplate="content">
+    <div class="field grid">
+      <form
+        [formGroup]="newParameterForm"
+        (ngSubmit)="f.form.valid && saveParameter()"
+        #f="ngForm"
+        class="p-formgrid grid"
+      >
+        <div class="field grid p-fluid">
+          <div class="col-12 md:col-6 mb-3">
+            <div
+              class="field field_mg_bt"
+            >
+              <label htmlFor="valor" class="col-12 mb-2 md:col-3 md:mb-0"
+                >Valor:</label
+              >
+              <input
+                type="text"
+                pInputText
+                id="valor"
+                maxlength="50"
+                name="valor"
+                formControlName="valor"
+                style="text-transform:uppercase;"
+                required
+                [ngClass]="{
+                  'ng-invalid ng-dirty': f.submitted && valor.invalid
+                }"
+                placeholder="Ingresar"
+              />
+            </div>
+          </div>
+          <div class="col" *ngIf="f.submitted && valor.invalid">
+            <p-message
+              severity="error"
+              text="Error: Valor es obligatoria / Máximo 50 caracteres"
+            ></p-message>
+          </div>
+          <div
+            class="col-12 md:col-6 mb-3">
+            <div class="field field_mg_bt">
+              <label htmlFor="nombre" class="col-12 mb-2 md:mb-0"
+                >Nombre de Parámetro:</label
+              >
+              <input
+                type="text"
+                pInputText
+                id="concepto"
+                maxlength="50"
+                name="concepto"
+                formControlName="concepto"
+                style="text-transform:uppercase;"
+                [ngClass]="{
+                  'ng-invalid ng-dirty': f.submitted && concepto.invalid
+                }"
+                placeholder="Ingresar"
+              />
+            </div>
+          </div>
+
+          <div class="col" *ngIf="f.submitted && concepto.invalid">
+            <p-message
+              severity="error"
+              text="Nombre de Parámetro es requerida / Máximo 50 caracteres"
+            ></p-message>
+          </div>
+          <div
+            class="col-12 md:col-12 mb-3">
+            <div class="field field_mg_bt">
+              <label htmlFor="nombre" class="col-12 mb-2 md:mb-0">
+                Detalles
+              </label>
+              <textarea
+                placeholder="Ingresar"
+                pInputTextarea
+                id="detalle"
+                name="detalle"
+                maxlength="150"
+                formControlName="detalle"
+                required
+                [ngClass]="{
+                  'ng-invalid ng-dirty': f.submitted && detalle.invalid
+                }"
+                style="min-height: 125px; overflow: auto"
+              ></textarea>
+            </div>
+          </div>
+
+          <div class="col" *ngIf="f.submitted && detalle.invalid">
+            <p-message
+              severity="error"
+              text="El detalle es obligatoria / Máximo 150 caracteres"
+            ></p-message>
+          </div>
+
+          <div
+            class="col-12 md:col-6 mb-3"
+            *ngIf="isType"
+          >
+            <div class="field field_mg_bt">
+              <label htmlFor="fechaCreacion" class="col-12 mb-2 md:mb-0">
+                Fecha de Creación
+              </label>
+              <input
+                type="text"
+                pInputText
+                id="fechaCreacion"
+                maxlength="50"
+                name="fechaCreacion"
+                formControlName="fechaCreacion"
+                [ngClass]="{
+                  'ng-invalid ng-dirty': f.submitted && concepto.invalid
+                }"
+                placeholder="Ingresar"
+              />
+            </div>
+          </div>
+
+          <div class="col-6 md:col-6" *ngIf="isType"></div>
+        </div>
+
+        <div class="field grid p-fluid justify-content-center" style="display:contents;" >
+          <div class="col-6 md:col-6 mb-3" *ngIf="!isType">
+            <div class="flex justify-content-center">
+              <button
+                pButton
+                pRipple
+                type="submit"
+                label="Guardar"
+                class="p-button-rounded"
+                icon="pi pi-save"
+                iconPos="left"
+              ></button>
+            </div>
+          </div>
+          <div class="col-6 md:col-6 mb-3" *ngIf="!isType">
+            <div class="flex justify-content-center">
+              <button
+                pButton
+                pRipple
+                type="button"
+                label="Cancelar"
+                icon="pi pi-ban"
+                iconPos="left"
+                class="p-button-outlined p-button-rounded"
+                (click)="hideDialog()"
+                *ngIf="!isType"
+              ></button>
+            </div>
+          </div>
+          <div class="col-12 md:col-12 mb-3" *ngIf="isType">
+            <div class="flex justify-content-center">
+              <button
+                pButton
+                pRipple
+                type="button"
+                label="Cerrar"
+                icon="pi pi-power-off"
+                iconPos="left"
+                class="p-button-outlined p-button-rounded"
+                (click)="hideDialog()"
+              ></button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer"> </ng-template>
+</p-dialog>
+
+<p-dialog
+  [(visible)]="deleteParameterDialog"
+  header="Eliminar Registro"
+  [modal]="true"
+  [style]="{ width: '450px' }"
+  [resizable]="false"
+>
+  <ng-template pTemplate="content">
+    <div class="flex align-items-center justify-content-center">
+      <p class="delete_msg">¿Desea eliminar el registro elegido?</p>
+    </div>
+  </ng-template>
+  <ng-template pTemplate="footer">
+    <div class="field grid p-fluid">
+      <div class="col-6">
+        <div class="flex justify-content-center">
+          <button
+            pButton
+            pRipple
+            type="button"
+            label="Si"
+            class="p-button-rounded"
+            (click)="confirmDelete()"
+          ></button>
+        </div>
+      </div>
+      <div class="col-6">
+        <div class="flex justify-content-center">
+          <button
+            pButton
+            pRipple
+            type="button"
+            label="No"
+            class="p-button-outlined p-button-rounded"
+            (click)="deleteParameterDialog = false"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+</p-dialog>
+
+<p-toast key="toast" [baseZIndex]="99999"></p-toast>
+
+<p-toast key="warn" [baseZIndex]="99999">
+  <ng-template let-message pTemplate="message">
+    <div class="flex flex-column" style="flex: 1">
+      <div class="text-center">
+        <em class="pi pi-exclamation-triangle" style="font-size: 3rem"></em>
+        <h5>{{ message.summary }}</h5>
+        <ul>
+          <em *ngFor="let item of message.detail">{{ item }}</em>
+        </ul>
+      </div>
+    </div>
+  </ng-template>
+</p-toast>

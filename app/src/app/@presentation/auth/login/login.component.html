@@ -1,0 +1,63 @@
+
+    <div class="grid" >
+        <div class="col-12 md:col-12">
+            <div class="flex align-items-center justify-content-center  height-responsive" >
+                <div class="col-12 xl:col-4 lg:col-6 md:col-6  sm:col-8 flex align-items-center justify-content-center">
+                    <div class="card p-fluid   xl:pl-8 xl:pr-8 xl:pt-5 xl:pb-5  lg:pl-6 lg:pr-6 lg:pt-3 lg:pb-3">
+                        <h5  class="text-center">Ingresar al Sistema</h5>
+    
+                        <form [formGroup]="loginForm" (submit)="ingresar()">
+                            <div class="formgrid grid">
+                                <div class="field col-12 md:col-12">
+                                    <input maxlength="25" pInputText id="usuario" type="text" placeholder="Nombre de usuario"
+                                        formControlName="nombreUsuario" placeholder="Nombre de Usuario"
+                                        [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.nombreUsuario.errors }" />
+                                    <div *ngIf="submitted && f.nombreUsuario.errors">
+                                        <p-message severity="error" text="Error: Debe ingresar su Usuario."></p-message>
+                                    </div>
+                                </div>
+                                <div class="field col-12 md:col-12">
+                                    <span class="p-input-icon-right">
+                                        <em *ngIf="!ckMostrarClave" class="pi pi-eye-slash" (click)="mostrarClave()"></em>
+                                        <em *ngIf="ckMostrarClave" class="pi pi-eye" (click)="mostrarClave()"></em>
+                                        <input maxlength="30" pInputText id="password" [type]="typePassword" formControlName="clave"
+                                            placeholder="Contraseña"
+                                            [ngClass]="{ 'ng-dirty ng-invalid': submitted && f.clave.errors }" pInputText />
+                                    </span>
+                                    <div *ngIf="submitted && f.clave.errors">
+                                        <p-message severity="error" text="Error: Debe ingresar su Contraseña."></p-message>
+                                    </div>
+                                </div>
+
+                                <div class="field col-12 md:col-12">                              
+                                    <div *ngIf="errorResponse">
+                                        <p-message severity="error" text="Error: Usuario y/o clave son incorrectos."></p-message>
+                                    </div>
+                                </div>
+
+                                <div class="field col-12 md:col-12">
+                                    <p-checkbox [binary]="true" formControlName="chbxRecordar"  name="recordarContra" label="Recordar Nombre de Usuario"></p-checkbox>
+                                </div>
+                               
+                                <div class="col-12">
+                                    <div class="buttons">
+                                        <button class="p-button-primary" pButton type="submit" label="Ingresar"></button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="grid">
+        <div class="col-12 md:col-12">
+            <div class="flex align-items-center justify-content-center">
+                <p class="advice">Se recomienda usar de preferencia los navegadores de Google Chrome <img src="assets/img/chrome_icon.svg" alt=""> y Mozilla Firefox <img src="assets/img/firefox_icon.svg" alt=""></p>
+            </div>
+        </div>
+    </div>
+ 
+    <p-toast key="toast" position="top-center" [baseZIndex]="99999"></p-toast>

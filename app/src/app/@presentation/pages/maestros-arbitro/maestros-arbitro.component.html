@@ -1,0 +1,135 @@
+<div class="grid">
+    <div class="col-12 md:col-12">
+        <div class="p-fluid">
+                <div class="flex justify-content-between">
+                    <div class=" field col-12 md:col-3">
+                        <h5>Maestro - Árbitros</h5>
+                    </div> 
+
+                    <div class=" field col-12 md:col-2">
+                        <button class="p-button-rounded p-button-sm" (click)="evaluarRegistrarActualizar({},false)" pButton pRipple label="Agregar"
+                            icon="pi pi-plus"></button>
+                    </div> 
+                </div> 
+        
+            <div class="formgrid grid">
+                <div class="field col-12 md:col-2">
+                    <input id="nombre" class="p-inputtext-sm" [(ngModel)]="nombreCompleto" type="text" pInputText
+                    (keyup.enter)="buscar()"
+                        placeholder="Nombres y Apellidos">
+                </div>
+                <div class="field col-12 md:col-2">
+                    <p-calendar [(ngModel)]="fechaRegistro" class="p-inputtext-sm" dateFormat="yy-mm-dd"
+                        placeholder="Fecha Registro"></p-calendar>
+                </div>
+
+                <div class="field col-12 md:col-2">
+                    <input id="usuarioRegistro" class="p-inputtext-sm" [(ngModel)]="usuarioRegistro" type="text" pInputText
+                    (keyup.enter)="buscar()"
+                        placeholder="Usuario Registro">
+                </div>
+
+                <div class="field col-12 md:col-2">
+                    <p-calendar [(ngModel)]="fechaModifica" class="p-inputtext-sm" dateFormat="yy-mm-dd"
+                        placeholder="Fecha Modificación"></p-calendar>
+                </div>
+
+                
+                <div class="field col-12 md:col-2">
+                    <input id="usuarioModifica" class="p-inputtext-sm" [(ngModel)]="usuarioModifica" type="text" pInputText
+                    (keyup.enter)="buscar()"
+                        placeholder="Usuario Modificación">
+                </div>
+
+                <div class="field col-12 md:col-2">
+                    <div class="field grid">
+                        <div class="col-12 md:col-6">
+                            <button class="p-button-rounded p-button-outlined" (click)="limpiar()" pButton pRipple label="Limpiar"
+                            icon="pi pi-trash"></button>
+                        </div>
+                        <div class="col-12 md:col-6">
+                            <button class="p-button-rounded p-button-sm" (click)="buscar()" pButton pRipple label="Buscar"
+                            icon="pi pi-search"></button>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+
+            <div class="grid card">
+                <div class="col-12 md:col-12">
+                    <p-table [value]="respuesta.data " [lazy]="true" (onLazyLoad)="cargarArbitros($event)" dataKey="arbitroId"
+                         [rowHover]="true" [resizableColumns]="true"
+                        [responsive]="true"
+                        [scrollable]="true"
+                        styleClass="p-datatable-sm   p-datatable-gridlines " 
+                        [rows]="cantidadPorPagina"
+                        [paginator]="true"  
+                        [totalRecords]="respuesta.totalRegistros" [loading]="loading">
+                        <ng-template pTemplate="header">
+                            <tr> 
+                                <th scope="col" pResizableColumn>Nombre </th>
+                                <th scope="col" pResizableColumn>Apellido Paterno </th>
+                                <th scope="col" pResizableColumn>Apellido Materno </th>
+                                <th scope="col" pResizableColumn>Tipo Documento </th>
+                                <th scope="col" pResizableColumn>Especialidad</th>
+                                <th scope="col" pResizableColumn>Usuario Creación</th>
+                                <th scope="col" pResizableColumn>Fecha Creación</th>
+                                <th scope="col" pResizableColumn>Usuario Modifcación</th>
+                                <th scope="col" pResizableColumn>Fecha Modificacón</th>
+                                <th scope="col"></th>
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="body" let-arbitro>
+                            <tr> 
+                                <td>{{arbitro.nombre}}</td>
+                                <td>{{arbitro.apellidoPaterno}}</td>
+                                <td>{{arbitro.apellidoMaterno}}</td>
+                                <td>{{arbitro.tipoDocumentoNombre}}</td>
+                                <td>{{arbitro.especialidadNombre}}</td>
+                                <td>{{arbitro.auditUsuarioCreacion}}</td>
+                                <td>{{arbitro.auditFechaCreacionFormat}}</td>
+                                <td>{{arbitro.auditUsuarioModifica}}</td>
+                                <td>{{arbitro.auditFechaModificaFormat}}</td>
+                                <td> <button  pButton pRipple type="button"  icon="pi pi-pencil" class="p-button-rounded p-button-text p-button-secondary"  (click)="evaluarRegistrarActualizar(arbitro,false)" ></button>
+                                    <button pButton pRipple  type="button" icon="pi pi-eye" class="p-button-rounded p-button-text p-button-secondary"  (click)="evaluarRegistrarActualizar(arbitro,true)" ></button>
+                                    <button  pButton pRipple type="button"  icon="pi pi-trash" class="p-button-rounded p-button-text p-button-secondary"  (click)="abrirConfirmacionEliminar(arbitro)"></button>
+                                </td> 
+                            </tr>
+                        </ng-template>
+                        <ng-template pTemplate="emptymessage" let-columns>
+                            <tr>
+                                <td>
+                                    No se encontraron registros
+                                </td>
+                            </tr>
+                        </ng-template>
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<p-toast key="toast" position="top-center" [baseZIndex]="99999"></p-toast>
+<p-toast position="top-center" key="warn" [baseZIndex]="99999">
+    <ng-template let-message pTemplate="message">
+        <div class="flex flex-column" style="flex: 1">
+            <div class="text-center">
+                <em class="pi pi-exclamation-triangle" style="font-size: 3rem"></em>
+                <h5>{{message.summary}}</h5>
+                <ul>
+                    <em *ngFor="let item of message.detail">{{item}}</em>
+                </ul>
+            </div>
+        </div>
+    </ng-template>
+</p-toast>
+<p-confirmDialog #md [style]="{width: '50vw'}" [baseZIndex]="10000" rejectButtonStyleClass="p-button-text">
+    <ng-template pTemplate="header">
+        <h3>Confirmación</h3>
+    </ng-template>
+    <ng-template pTemplate="footer">
+        <button type="button" pButton icon="pi pi-check" label="Si" (click)="md.accept()"></button>
+        <button type="button" class="p-button-danger" pButton icon="pi pi-times-circle" label="Cancelar"
+            (click)="cerrarModalConfirmacion()"></button>
+    </ng-template>
+</p-confirmDialog>

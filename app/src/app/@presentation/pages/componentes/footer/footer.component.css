@@ -1,0 +1,18 @@
+.layout-footer {
+  background: #58595B;
+  height: 100px !important;
+  font-family: "Arial";
+  font-style: normal;
+  font-weight: 400;
+  font-size: 16px;
+  line-height: 18px;
+  display: flex;
+  align-items: center;
+  /* Blanco */
+  color: #FFFFFF;
+  justify-content: center;
+}
+
+.subtitle {
+  margin: 14px;
+}
